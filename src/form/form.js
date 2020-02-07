@@ -1,9 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'
-// import logo from './logo.svg';
-import './app.css';
+import '../styles/app.css';
 
-function App() {
+function Form() {
 
   const { register, handleSubmit, watch, errors } = useForm();
   
@@ -31,27 +30,8 @@ function App() {
   );
 }
 
-export default App;
+export default Form;
 
-  /* return (
-    <div className="App">
-      <header className = "App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>          
-          Currently using React {React.version}
-        </p>
-        <a
-          className = "App-link"
-          href = "https://reactjs.org"
-          target = "_blank"
-          rel = "noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-  */
 
 
 
