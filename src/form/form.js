@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'
 // import logo from './logo.svg';
-import './styles/app.css';
+import './app.css';
 
 function App() {
 
