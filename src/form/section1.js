@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../styles/app.css';
 
-function Main() {
+function InformacionPersonalFuncionario() {
 
   const { register, handleSubmit, watch, errors } = useForm();
   
@@ -168,7 +168,7 @@ function Main() {
   );
 }
 
-export default Main;
+export default InformacionPersonalFuncionario;
 
 
 /*
