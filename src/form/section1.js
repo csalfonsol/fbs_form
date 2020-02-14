@@ -29,7 +29,7 @@ function InformacionPersonalFuncionario() {
   return (
       
       <div>
-        <h3 className="mb-3 mt-5">1. Información personal del funcionario</h3>      
+        <h3 className="mb-4 mt-5">1. Información personal del funcionario</h3>      
           
           <Row className="mb-3">{/*Nombres y apellidos */}
             <Col md="0" >
@@ -151,8 +151,32 @@ function InformacionPersonalFuncionario() {
             </Col>
           </Row>
           
-          <Alert variant={'info'}>
+          <Alert variant={'info'}> {/*Datagrid personas a cargo*/}
             Datagrid de personas a cargo
+
+            <Row className="mb-3 mt-4 text-center">
+              <Col md="6" > 
+                <Label>Nombres y Apellidos de la(s) persona(s) a cargo</Label>
+              </Col>
+              <Col md="4" >
+                <Label>Parentesco</Label>
+              </Col>
+              <Col md="2" >
+                <Label>Edad</Label>
+              </Col>
+            </Row>
+
+            <Row className="mb-3 text-center">
+              <Col md="6" >
+                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
+              </Col>
+              <Col md="4" >
+                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
+              </Col>
+              <Col md="2" >
+                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
+              </Col>
+            </Row>
           </Alert>  
 
           <Row className="mb-3">{/*Conyugue y su documento*/}

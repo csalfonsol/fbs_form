@@ -3,3 +3,9 @@ body {
     margin: 2%;
 
 }
+
+.nota_certificado {
+
+    font-size: medium;
+    font-style: italic;
+}

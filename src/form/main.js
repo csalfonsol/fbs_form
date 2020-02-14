@@ -19,6 +19,7 @@ import '../styles/app.css';
 // Componentes formulario
 import InformacionPersonalFuncionario from './section1';
 import ReferenciasFamiliares from './section2';
+import InformacionLaboralFuncionario from './section3';
 
 
 
@@ -48,6 +49,8 @@ function Main() {
           <InformacionPersonalFuncionario />
 
           <ReferenciasFamiliares />
+
+          <InformacionLaboralFuncionario />
           
           <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
             Enviar  
