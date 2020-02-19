@@ -9,3 +9,21 @@ body {
     font-size: medium;
     font-style: italic;
 }
+
+.nota_pago {
+
+    font-size: small;
+    font-style: italic;
+}
+
+.nota_vehiculo {
+
+    font-size: small;    
+}
+
+.caja_firma {
+
+    height: 100px;
+    width: 90%;
+    margin-bottom: 0px;
+}

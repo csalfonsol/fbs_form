@@ -22,6 +22,7 @@ import InformacionPersonalFuncionario from './section1';
 import ReferenciasFamiliares from './section2';
 import InformacionLaboralFuncionario from './section3';
 import InformacionSolicitudDelCredito from './section4';
+import DeclaracionAutorizacionFirma from './section5';
 
 
 
@@ -65,7 +66,9 @@ function Main() {
 
           <InformacionLaboralFuncionario />
 
-          <InformacionSolicitudDelCredito/>
+          <InformacionSolicitudDelCredito />
+
+          <DeclaracionAutorizacionFirma />
           
           <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
             Enviar  
