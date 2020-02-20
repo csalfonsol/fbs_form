@@ -52,11 +52,9 @@ function Main() {
   return (    
 
     <Container fluid>
-
-      <button onClick={handleClick}>Hi</button>
-
+      
       <h2 className="text-center mb-5">SOLICITUD DE CRÉDITO</h2> {/*Encabezado del formulario*/}    
- 
+    
       <FormContext {...methods}>
         <Form onSubmit = {handleSubmit(onSubmit)} >
                     

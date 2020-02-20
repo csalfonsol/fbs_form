@@ -1,5 +1,6 @@
 // Librerias
-import React from 'react';
+import React, { useState }  from 'react';
+import ReactTable from 'react-table-6';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
@@ -15,7 +16,9 @@ import Button from 'react-bootstrap/Button';
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-table-6/react-table.css';
 import '../styles/app.css';
+
 
 
 
@@ -23,12 +26,126 @@ function InformacionPersonalFuncionario() {
 
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;
+
+
+  // const columns = ["Person Name", "Age", "Company Name", "Country", "City"];
+
+  // Datos de las personas a cargo
+  const [data, setData] = useState([
+    [0,"Aurelia Vega", "Madrid",22],
+    [1,"Guerra Cortez", "San Francisco",30],
+    [2,"Guadalupe House", "Frankfurt am Main",45],
+    [3,"Elisa Gallagher", "London",8]
+  ]);
   
-  // console.log(watch("nombres")); // you can watch individual input by pass the name of the input
+
+  const handleClick = e => { 
+    
+    console.log(data);
+
+  }; 
+
+  const agregar = e => { 
+        
+    let result = [...data];
+    result.push([data.length,"", "",])
+    setData(result);
+
+  }; 
+
+  
+
+  // Celda para ingresar datos
+  function renderEditable(cellInfo) {
+    return (
+      <div
+        style={{ backgroundColor: "#fafafa" }}
+        contentEditable
+        suppressContentEditableWarning
+            
+         // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
+         onBlur = {e => {
+          const newData = [...data];                              
+          newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;          
+          setData( newData );
+        }}
+                
+        dangerouslySetInnerHTML = {{
+          __html: data[cellInfo.index][cellInfo.column.id]
+        }} 
+      />
+    );
+  }
+
+  // Celda para eliminar la fila
+  function renderDelete(cellInfo) {
+    return (
+      <Button 
+        onClick = {e => {
+
+          let result = [...data];
+          result.splice(cellInfo.index , 1);          
+          setData(result);
+          
+        }}
+
+        size="sm" 
+        variant="danger">
+          Eliminar
+      </Button> 
+    );
+  }
 
   return (
       
       <div>
+
+          <Button onClick={handleClick} size="sm" variant="primary">{/*Enviar formulario*/}
+            ver data  
+          </Button>                 
+
+          <Button onClick={agregar} size="sm" variant="primary">{/*Enviar formulario*/}
+            Agregar
+          </Button> 
+
+        <ReactTable
+          
+          data = {data}
+
+          columns={[
+            {
+              id: 1,
+              Header: "Nombres y apellidos de las personas a cargo",
+              accessor: "nombre",
+              Cell: renderEditable
+            },
+            {
+              id: 2,
+              Header: "Parentesco",
+              accessor: "parentesco",
+              Cell: renderEditable
+            },
+            {
+              id: 3,
+              Header: "Edad",
+              accessor: "edad",              
+              Cell: renderEditable
+            },
+            {
+              id: 4,
+              Header: "Eliminar",
+              accessor: "delete",              
+              Cell: renderDelete
+            }
+          ]}
+          defaultPageSize={data.length}
+          pageSize={data.length}
+          showPagination = {false}
+          className="-striped -highlight"
+        />
+
+
+        
         <h3 className="mb-4 mt-5">1. Información personal del funcionario</h3>      
           
           <Row className="mb-3">{/*Nombres y apellidos */}
@@ -142,12 +259,7 @@ function InformacionPersonalFuncionario() {
               <Label>Personas a cargo</Label>
             </Col>
             <Col md="1">
-              <Form.Control size="sm" name="cargo" as="select" ref={register}>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </Form.Control>
+            <Label><strong>{data.length}</strong></Label>
             </Col>
           </Row>
           
