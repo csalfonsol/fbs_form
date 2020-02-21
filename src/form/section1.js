@@ -18,6 +18,7 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-table-6/react-table.css';
 import '../styles/app.css';
+import { turquoise } from 'color-name';
 
 
 
@@ -62,7 +63,7 @@ function InformacionPersonalFuncionario() {
       <div
         style={{ backgroundColor: "#fafafa" }}
         contentEditable
-        suppressContentEditableWarning
+        
             
          // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
          onBlur = {e => {
@@ -78,6 +79,7 @@ function InformacionPersonalFuncionario() {
     );
   }
 
+
   // Celda para eliminar la fila
   function renderDelete(cellInfo) {
     return (
@@ -91,7 +93,8 @@ function InformacionPersonalFuncionario() {
         }}
 
         size="sm" 
-        variant="danger">
+        variant="danger"
+        className="rellenar">    
           Eliminar
       </Button> 
     );
@@ -182,7 +185,7 @@ function InformacionPersonalFuncionario() {
             </Col>
           </Row>
 
-          <Row className="mb-3">{/*Fecha nacimiento, Estado civil y Personas a cargo*/}
+          <Row className="mb-4 pb-2">{/*Fecha nacimiento, Estado civil y Personas a cargo*/}
             <Col md="0" className="mr-3">
               <Label>Fecha Nacimiento</Label>
             </Col>
@@ -212,21 +215,21 @@ function InformacionPersonalFuncionario() {
             </Col>           
           </Row>
           
-          <Row>
-            Personas a cargo: &nbsp; <strong>{data.length}</strong>
+          <Row className="mt-4">
+            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{data.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <Button className="mb-2" onClick={agregar} size="sm" variant="info">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
+              Agregar
+            </Button> 
           </Row>
 
           <Col md="0">          
-
-            <Button onClick={handleClick} size="sm" variant="primary">{/*Enviar formulario*/}
+            {/*
+            <Button onClick={handleClick} size="sm" variant="primary">
              ver data  
-            </Button>                 
+            </Button>   
+            */}
 
-            <Button onClick={agregar} size="sm" variant="primary">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
-              Agregar
-            </Button> 
-
-            <ReactTable
+            <ReactTable /* Datagrid de Personas a cargo */
               
               data = {data}
 
@@ -235,34 +238,43 @@ function InformacionPersonalFuncionario() {
                   id: 1,
                   Header: "Nombres y apellidos de las personas a cargo",
                   accessor: "nombre",
+                  width: 500,
+                  headerClassName: "encabezado_columna",
                   Cell: renderEditable
                 },
                 {
                   id: 2,
                   Header: "Parentesco",
-                  accessor: "parentesco",
+                  accessor: "parentesco",         
+                  headerClassName: "encabezado_columna",                           
                   Cell: renderEditable
                 },
                 {
                   id: 3,
                   Header: "Edad",
                   accessor: "edad",              
+                  width: 120,                                    
+                  className: "text-center",
+                  headerClassName: "encabezado_columna",
                   Cell: renderEditable
                 },
                 {
                   id: 4,
                   Header: "Eliminar",
                   accessor: "delete",              
+                  width: 250,
+                  className: "text-center",
+                  headerClassName: "encabezado_columna",
                   Cell: renderDelete
                 }
               ]}
               defaultPageSize={data.length}
               pageSize={data.length}
-              showPagination = {false}
+              showPagination = {false}            
+              resizable={false}  
               className="-striped -highlight"
             />
-          </Col>
-          
+          </Col>         
 
           <Row className="mb-3">{/*Conyugue y su documento*/}
             <Col md="0" >

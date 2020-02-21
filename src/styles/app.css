@@ -27,3 +27,16 @@ body {
     width: 90%;
     margin-bottom: 0px;
 }
+
+.rellenar {
+    width: 95%;    
+}
+
+.encabezado_columna {
+    
+    margin-bottom: 4px;
+    margin-top: 4px;
+    font-weight: bold;    
+    /* border-width: 1px;
+     border-style: solid;*/
+}
