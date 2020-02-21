@@ -1,6 +1,7 @@
 // Librerias
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import ReactTable from 'react-table-6';
+import DatePicker from "react-datepicker";
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
@@ -17,44 +18,41 @@ import Button from 'react-bootstrap/Button';
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-table-6/react-table.css';
+import "react-datepicker/dist/react-datepicker.css";
 import '../styles/app.css';
 import { turquoise } from 'color-name';
 
 
-
-
-function InformacionPersonalFuncionario() {
+const InformacionPersonalFuncionario = props => {
+  
 
   // Funcion utilizada para conectar con el contexto principal del formulario
-  const register = useFormContext().register;
-
-
-  // const columns = ["Person Name", "Age", "Company Name", "Country", "City"];
+  const register = useFormContext().register;  
 
   // Datos de las personas a cargo
-  const [data, setData] = useState([
-    [0,"Aurelia Vega", "Madrid",22],
-    [1,"Guerra Cortez", "San Francisco",30],
-    [2,"Guadalupe House", "Frankfurt am Main",45],
-    [3,"Elisa Gallagher", "London",8]
+  // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid )  
+  const [personasaCargo, setPersonasaCargo] = useState([
+    [,"", "",]
   ]);
-  
+
+  // Fecha de nacimiento
+  // const [fechaNacimiento, setFechaNacimiento] = useState(props);  
+  const [estado, setEstado] = useState(props);    
+
 
   const handleClick = e => { 
     
-    console.log(data);
+    console.log(props);
+    //console.log(personasaCargo);
 
   }; 
 
   // Agregar una persona a cargo en el datagrid de personas a cargo
-  const agregar = e => { 
-        
-    let result = [...data];
-    result.push([data.length,"", "",])
-    setData(result);
-
+  const agregar = e => {       
+    let result = [...personasaCargo];
+    result.push([,"", "",])
+    setPersonasaCargo(result);
   }; 
-
   
 
   // Celda para ingresar datos
@@ -63,17 +61,16 @@ function InformacionPersonalFuncionario() {
       <div
         style={{ backgroundColor: "#fafafa" }}
         contentEditable
-        
-            
+                   
          // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
          onBlur = {e => {
-          const newData = [...data];                              
+          const newData = [...personasaCargo];                              
           newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;          
-          setData( newData );
+          setPersonasaCargo( newData );
         }}
                 
         dangerouslySetInnerHTML = {{
-          __html: data[cellInfo.index][cellInfo.column.id]
+          __html: personasaCargo[cellInfo.index][cellInfo.column.id]
         }} 
       />
     );
@@ -86,9 +83,9 @@ function InformacionPersonalFuncionario() {
       <Button 
         onClick = {e => {
 
-          let result = [...data];
+          let result = [...personasaCargo];
           result.splice(cellInfo.index , 1);          
-          setData(result);
+          setPersonasaCargo(result);
           
         }}
 
@@ -189,24 +186,21 @@ function InformacionPersonalFuncionario() {
             <Col md="0" className="mr-3">
               <Label>Fecha Nacimiento</Label>
             </Col>
-            <Col md="0" className="ml-5">
-              <Label>Día</Label>
-            </Col>
-            <Col md="1">
-              <Form.Control size="sm" name="dia" type="number" ref={register} />
-            </Col>
-            <Col md="0" className="ml-2">
-              <Label>Mes</Label>
-            </Col>
-            <Col md="1">
-              <Form.Control size="sm" name="mes" type="number" ref={register} />
-            </Col>
-            <Col md="0" className="ml-2">
-              <Label>Año</Label>
-            </Col>
-            <Col md="1">
-              <Form.Control size="sm" name="ano" type="number" ref={register} />
-            </Col>
+            
+
+            <DatePicker
+              selected={estado}
+              onChange={fecha => props.setEstado(fecha)}
+              maxDate={new Date()}              
+              showYearDropdown
+              dateFormatCalendar="MMMM"
+              yearDropdownItemNumber={30}
+              scrollableYearDropdown
+            />
+            
+
+
+
             <Col md="0" className="ml-5">
               <Label>Estado Civil</Label>
             </Col>
@@ -216,22 +210,22 @@ function InformacionPersonalFuncionario() {
           </Row>
           
           <Row className="mt-4">
-            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{data.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{personasaCargo.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
             <Button className="mb-2" onClick={agregar} size="sm" variant="info">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
               Agregar
             </Button> 
           </Row>
 
           <Col md="0">          
-            {/*
+            
             <Button onClick={handleClick} size="sm" variant="primary">
              ver data  
             </Button>   
-            */}
+            
 
             <ReactTable /* Datagrid de Personas a cargo */
               
-              data = {data}
+              data = {personasaCargo}
 
               columns={[
                 {
@@ -267,16 +261,15 @@ function InformacionPersonalFuncionario() {
                   headerClassName: "encabezado_columna",
                   Cell: renderDelete
                 }
-              ]}
-              defaultPageSize={data.length}
-              pageSize={data.length}
+              ]}              
+              pageSize = {personasaCargo.length}
               showPagination = {false}            
-              resizable={false}  
-              className="-striped -highlight"
+              resizable = {false}  
+              className = "-striped -highlight"
             />
           </Col>         
 
-          <Row className="mb-3">{/*Conyugue y su documento*/}
+          <Row className="mb-3 mt-4">{/*Conyugue y su documento*/}
             <Col md="0" >
               <Label>Nombre Cónyugue</Label>
             </Col>

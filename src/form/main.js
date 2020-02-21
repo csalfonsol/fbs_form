@@ -31,6 +31,9 @@ function Main() {
   // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
   const [linea, setLinea] = useState('vehicuo');  
 
+
+  const [fechaNacimiento, setFechaNacimiento] = useState(new Date());
+
   const methods = useForm();
   const { register, handleSubmit } = methods;
   
@@ -39,6 +42,9 @@ function Main() {
    
     // console.log(data);
     alert(JSON.stringify(data));
+
+    alert(JSON.stringify(fechaNacimiento));
+    
   }; 
 
   const handleClick = data => {
@@ -58,7 +64,7 @@ function Main() {
       <FormContext {...methods}>
         <Form onSubmit = {handleSubmit(onSubmit)} >
                     
-          <InformacionPersonalFuncionario />
+          <InformacionPersonalFuncionario {...fechaNacimiento} />
 
           <ReferenciasFamiliares />
 
