@@ -45,6 +45,7 @@ function InformacionPersonalFuncionario() {
 
   }; 
 
+  // Agregar una persona a cargo en el datagrid de personas a cargo
   const agregar = e => { 
         
     let result = [...data];
@@ -99,53 +100,7 @@ function InformacionPersonalFuncionario() {
   return (
       
       <div>
-
-          <Button onClick={handleClick} size="sm" variant="primary">{/*Enviar formulario*/}
-            ver data  
-          </Button>                 
-
-          <Button onClick={agregar} size="sm" variant="primary">{/*Enviar formulario*/}
-            Agregar
-          </Button> 
-
-        <ReactTable
-          
-          data = {data}
-
-          columns={[
-            {
-              id: 1,
-              Header: "Nombres y apellidos de las personas a cargo",
-              accessor: "nombre",
-              Cell: renderEditable
-            },
-            {
-              id: 2,
-              Header: "Parentesco",
-              accessor: "parentesco",
-              Cell: renderEditable
-            },
-            {
-              id: 3,
-              Header: "Edad",
-              accessor: "edad",              
-              Cell: renderEditable
-            },
-            {
-              id: 4,
-              Header: "Eliminar",
-              accessor: "delete",              
-              Cell: renderDelete
-            }
-          ]}
-          defaultPageSize={data.length}
-          pageSize={data.length}
-          showPagination = {false}
-          className="-striped -highlight"
-        />
-
-
-        
+                
         <h3 className="mb-4 mt-5">1. Información personal del funcionario</h3>      
           
           <Row className="mb-3">{/*Nombres y apellidos */}
@@ -254,42 +209,60 @@ function InformacionPersonalFuncionario() {
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="ciudad" type="text" ref={register} />
-            </Col>
-            <Col md="0" className="ml-4">
-              <Label>Personas a cargo</Label>
-            </Col>
-            <Col md="1">
-            <Label><strong>{data.length}</strong></Label>
-            </Col>
+            </Col>           
           </Row>
           
-          <Alert variant={'info'}> {/*Datagrid personas a cargo*/}
-            Datagrid de personas a cargo
+          <Row>
+            Personas a cargo: &nbsp; <strong>{data.length}</strong>
+          </Row>
 
-            <Row className="mb-3 mt-4 text-center">
-              <Col md="6" > 
-                <Label>Nombres y Apellidos de la(s) persona(s) a cargo</Label>
-              </Col>
-              <Col md="4" >
-                <Label>Parentesco</Label>
-              </Col>
-              <Col md="2" >
-                <Label>Edad</Label>
-              </Col>
-            </Row>
+          <Col md="0">          
 
-            <Row className="mb-3 text-center">
-              <Col md="6" >
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-              <Col md="4" >
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-              <Col md="2" >
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-            </Row>
-          </Alert>  
+            <Button onClick={handleClick} size="sm" variant="primary">{/*Enviar formulario*/}
+             ver data  
+            </Button>                 
+
+            <Button onClick={agregar} size="sm" variant="primary">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
+              Agregar
+            </Button> 
+
+            <ReactTable
+              
+              data = {data}
+
+              columns={[
+                {
+                  id: 1,
+                  Header: "Nombres y apellidos de las personas a cargo",
+                  accessor: "nombre",
+                  Cell: renderEditable
+                },
+                {
+                  id: 2,
+                  Header: "Parentesco",
+                  accessor: "parentesco",
+                  Cell: renderEditable
+                },
+                {
+                  id: 3,
+                  Header: "Edad",
+                  accessor: "edad",              
+                  Cell: renderEditable
+                },
+                {
+                  id: 4,
+                  Header: "Eliminar",
+                  accessor: "delete",              
+                  Cell: renderDelete
+                }
+              ]}
+              defaultPageSize={data.length}
+              pageSize={data.length}
+              showPagination = {false}
+              className="-striped -highlight"
+            />
+          </Col>
+          
 
           <Row className="mb-3">{/*Conyugue y su documento*/}
             <Col md="0" >
