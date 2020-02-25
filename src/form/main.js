@@ -1,16 +1,13 @@
 // Librerias
 import React, { useState } from 'react';
-import { MDBContainer, MDBInput } from "mdbreact";
 import { useForm, FormContext } from 'react-hook-form'
+import axios from 'axios';
 
 // Layout
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 // Estilos
@@ -26,27 +23,60 @@ import DeclaracionAutorizacionFirma from './section5';
 
 
 
+
+// URL del servidor que recibirá los datos
+const URL = 'http://3.80.200.194/ords/snw_fonviv/solicitud/crear'
+
 function Main() {
 
-  // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
-  const [linea, setLinea] = useState('vehicuo');  
-
-
-  const [fechaNacimiento, setFechaNacimiento] = useState(new Date());
-
+  // Metodos principales de React-hook-form para capturar los datos, manejar validaciones y crear el contexto del formulario
   const methods = useForm();
   const { register, handleSubmit } = methods;
   
-  // Funcion que se ejecuta al enviar el frmulario, si las validaciones son exitosas
-  const onSubmit = data => {
-   
-    // console.log(data);
-    alert(JSON.stringify(data));
+  // Variables de estado (hooks)
+  const [fechaNacimiento, setFechaNacimiento] = useState(); 
+  const [personasaCargo, setPersonasaCargo] = useState([ // Datagrid de personas a cargo
+    [,"", "",]
+  ]);
 
-    alert(JSON.stringify(fechaNacimiento));
+  
+  
+  // Funcion que se ejecuta al enviar el formulario, si las validaciones son exitosas
+  const onSubmit = data => {
+
+   
+    let fechaFormateada = 
+      (fechaNacimiento.getDate()).toString() + '/' +
+      (fechaNacimiento.getMonth()+1).toString() + '/' + 
+      (fechaNacimiento.getFullYear()).toString();
+    
+    data.personasaCargo = personasaCargo;
+    data.fechaNacimiento = fechaFormateada;
+
+    console.log(data);
+
+    //alert(JSON.stringify(data));
+    alert(JSON.stringify(fechaFormateada));
+
+
+    /*
+    axios.post(URL, data)
+        .then(response => {
+          console.log(response);
+          console.log('data ' + response.data);         
+        })
+        .catch(error => {
+          //alert('fallo creando pedido' + error);
+          console.log(error)
+        }); 
+    */
     
   }; 
 
+  // Funciones para llamar el Set de los hooks de las variables de estado
+  function cambiarFechaNacimiento(nuevaFecha) { setFechaNacimiento(nuevaFecha); }
+  function cambiarPersonasaCargo(data) { setPersonasaCargo(data); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
+  
   const handleClick = data => {
    
     // console.log(data);
@@ -63,8 +93,14 @@ function Main() {
     
       <FormContext {...methods}>
         <Form onSubmit = {handleSubmit(onSubmit)} >
+
+          <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
+            Enviar  
+          </Button>   
                     
-          <InformacionPersonalFuncionario {...fechaNacimiento} />
+          <InformacionPersonalFuncionario 
+            fechaNacimiento={fechaNacimiento} cambiarFechaNacimiento={cambiarFechaNacimiento} 
+            personasaCargo={personasaCargo} cambiarPersonasaCargo={cambiarPersonasaCargo}/>
 
           <ReferenciasFamiliares />
 
@@ -74,9 +110,7 @@ function Main() {
 
           <DeclaracionAutorizacionFirma />
           
-          <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
-            Enviar  
-          </Button>                   
+          {/*Aqui va el boton enviar */}                
 
         </Form>
       </FormContext>

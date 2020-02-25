@@ -2,6 +2,7 @@
 import React, { useState, useEffect }  from 'react';
 import ReactTable from 'react-table-6';
 import DatePicker from "react-datepicker";
+import es from 'date-fns/locale/es';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
@@ -20,38 +21,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-table-6/react-table.css';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/app.css';
-import { turquoise } from 'color-name';
 
 
 const InformacionPersonalFuncionario = props => {
   
-
+  
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;  
+  
+  // Se llama la función (Callback) del componente padre (Main)
+  function cambiarFechaNacimiento(fecha) { props.cambiarFechaNacimiento(fecha); }
+  function cambiarPersonasaCargo(data) { props.cambiarPersonasaCargo(data); }
 
-  // Datos de las personas a cargo
-  // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid )  
-  const [personasaCargo, setPersonasaCargo] = useState([
-    [,"", "",]
-  ]);
-
-  // Fecha de nacimiento
-  // const [fechaNacimiento, setFechaNacimiento] = useState(props);  
-  const [estado, setEstado] = useState(props);    
-
-
-  const handleClick = e => { 
-    
-    console.log(props);
-    //console.log(personasaCargo);
-
-  }; 
 
   // Agregar una persona a cargo en el datagrid de personas a cargo
   const agregar = e => {       
-    let result = [...personasaCargo];
+    let result = [...props.personasaCargo];
     result.push([,"", "",])
-    setPersonasaCargo(result);
+    cambiarPersonasaCargo(result);
   }; 
   
 
@@ -64,13 +51,13 @@ const InformacionPersonalFuncionario = props => {
                    
          // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
          onBlur = {e => {
-          const newData = [...personasaCargo];                              
+          const newData = [...props.personasaCargo];
           newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;          
-          setPersonasaCargo( newData );
+          cambiarPersonasaCargo( newData );
         }}
                 
         dangerouslySetInnerHTML = {{
-          __html: personasaCargo[cellInfo.index][cellInfo.column.id]
+          __html: props.personasaCargo[cellInfo.index][cellInfo.column.id]
         }} 
       />
     );
@@ -83,9 +70,9 @@ const InformacionPersonalFuncionario = props => {
       <Button 
         onClick = {e => {
 
-          let result = [...personasaCargo];
+          let result = [...props.personasaCargo];
           result.splice(cellInfo.index , 1);          
-          setPersonasaCargo(result);
+          cambiarPersonasaCargo(result);
           
         }}
 
@@ -189,17 +176,19 @@ const InformacionPersonalFuncionario = props => {
             
 
             <DatePicker
-              selected={estado}
-              onChange={fecha => props.setEstado(fecha)}
-              maxDate={new Date()}              
+              selected={props.fechaNacimiento}
+              onChange={date => cambiarFechaNacimiento(date)}
+              maxDate={new Date()}
+              dateFormat="dd/MM/yyyy"
+              locale={es}
+              isClearable
+              peekNextMonth
+              showMonthDropdown
               showYearDropdown
-              dateFormatCalendar="MMMM"
-              yearDropdownItemNumber={30}
-              scrollableYearDropdown
+              dropdownMode="select"              
+                            
             />
             
-
-
 
             <Col md="0" className="ml-5">
               <Label>Estado Civil</Label>
@@ -210,22 +199,22 @@ const InformacionPersonalFuncionario = props => {
           </Row>
           
           <Row className="mt-4">
-            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{personasaCargo.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{props.personasaCargo.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
             <Button className="mb-2" onClick={agregar} size="sm" variant="info">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
               Agregar
             </Button> 
           </Row>
 
           <Col md="0">          
-            
+            {/*
             <Button onClick={handleClick} size="sm" variant="primary">
              ver data  
             </Button>   
-            
+            */}
 
             <ReactTable /* Datagrid de Personas a cargo */
               
-              data = {personasaCargo}
+              data = {props.personasaCargo}
 
               columns={[
                 {
@@ -262,11 +251,13 @@ const InformacionPersonalFuncionario = props => {
                   Cell: renderDelete
                 }
               ]}              
-              pageSize = {personasaCargo.length}
+              pageSize = {props.personasaCargo.length}
               showPagination = {false}            
               resizable = {false}  
               className = "-striped -highlight"
             />
+
+            
           </Col>         
 
           <Row className="mb-3 mt-4">{/*Conyugue y su documento*/}
