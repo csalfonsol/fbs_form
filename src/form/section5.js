@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
@@ -35,17 +34,17 @@ function DeclaracionAutorizacionFirma() {
                   <Alert className="caja_firma" variant='secondary'></Alert>
                 </Row>
                 <Row>            
-                  <Label><strong>Firma solicitante</strong></Label>
+                  <span><strong>Firma solicitante</strong></span>
                 </Row>
                 <Row>            
-                  <Label><strong>C.C</strong></Label>
+                  <span><strong>C.C</strong></span>
                 </Row>
               </Col>
               <Col>
                 <Row>            
-                  <Label className = "text-justify">
-                    " Declaro bajo la gravedad del juramento que la información registrada en éste documento es cierta así como las condiciones exigidas por el Fondo de Bienestar Social Contraloría General de la República FBSCGR con los parámetros de pago, facultando al FBSCGR para revocar la adjudicación si se llegare a comprobar falsedad. <strong>Autorizo el uso y tratamiento de mis datos personales de conformidad con lo establecido en la ley 1581 de 2012 y las demás dispocisiones que la desarrollen </strong> ".
-                  </Label>
+                  <span className = "text-justify">
+                    " Declaro bajo la gravedad del juramento que la información registrada en éste documento es cierta así como las condiciones exigidas por el Fondo de Bienestar Social Contraloría General de la República FBSCGR con los parámetros de pago, facultando al FBSCGR para revocar la adjudicación si se llegare a comprobar falsedad. <strong>Autorizo el uso y tratamiento de mis datos personales de conformidad con lo establecido en la ley 1581 de 2012 y las demás dispocisiones que la desarrollen </strong> "
+                  </span>
                 </Row>
               </Col>
             </Row>                   

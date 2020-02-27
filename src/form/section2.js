@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
@@ -28,8 +27,8 @@ const ReferenciasFamiliares = props =>  {
   // Agregar una referencia familiar en el datagrid de referencias familiares
   const agregar = e => {     
     
-    // Máximo pueden haber 4 personas a cargo
-    if (props.referenciasFamiliares.length < 4){ 
+    // Máximo pueden haber 8 referencias familiares
+    if (props.referenciasFamiliares.length < 8){ 
       let result = [...props.referenciasFamiliares];
       result.push([,"", "",])
       cambiarReferenciasFamiliares(result);    
@@ -45,7 +44,7 @@ const ReferenciasFamiliares = props =>  {
 
         // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
         onBlur = {e => {
-          // Se valida si la edad es numerica o no
+          // Se valida si el teléfono es numerico o no
           if (cellInfo.column.id === 3){
             if (!isNaN(e.target.innerHTML)){
               const newData = [...props.referenciasFamiliares];
@@ -73,7 +72,7 @@ const ReferenciasFamiliares = props =>  {
       <Button 
 
         onClick = {e => {
-          // Mínimo debe haber una persona a cargo
+          // Mínimo debe haber una referencia familiar
           if (props.referenciasFamiliares.length > 1){ 
             let result = [...props.referenciasFamiliares];
             result.splice(cellInfo.index , 1);          
@@ -96,7 +95,7 @@ const ReferenciasFamiliares = props =>  {
         <h3 className="mb-3 mt-5">2. Referencias familiares</h3>      
 
           <Row className="mt-4">
-            <Label className="pt-1">Referencias familiares: &nbsp; <strong>{props.referenciasFamiliares.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <span className="pt-1">Referencias familiares: &nbsp; <strong>{props.referenciasFamiliares.length}</strong></span>  &nbsp;&nbsp;&nbsp;
             <Button className="mb-2" onClick={agregar} size="sm" variant="info">
               Agregar
             </Button> 

@@ -7,6 +7,11 @@ body {
     font-style: italic;
 }
 
+.nota_ubicacion_fbs {
+    font-size: small;
+    font-style: italic;
+}
+
 .nota_pago {
     font-size: small;
     font-style: italic;

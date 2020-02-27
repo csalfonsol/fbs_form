@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
@@ -31,7 +30,7 @@ function InformacionLaboralFuncionario() {
           
         <Row className="mb-3">{/*Entidad y ciudad oficina*/}
           <Col md="0">
-            <Label>Entidad</Label>
+            <span>Entidad</span>
           </Col>
           <Col md="6">
             <Form.Control size="sm" name="entidad" as="select" ref={register}>
@@ -40,7 +39,7 @@ function InformacionLaboralFuncionario() {
             </Form.Control>
           </Col>
           <Col md="0" className="ml-5">
-            <Label>Ciudad Oficina</Label>
+            <span>Ciudad Oficina</span>
           </Col>
           <Col md="4">
             <Form.Control size="sm" name="ciudad_oficina" as="select" ref={register}>
@@ -55,15 +54,15 @@ function InformacionLaboralFuncionario() {
 
         <Row className="mb-3">{/*Gerencia y ubicacion FBS*/}
           <Col md="0">
-            <Label>Gerencia Departamental Colegiada</Label>
+            <span>Gerencia Departamental Colegiada</span>
           </Col>
           <Col md="3">
             <Form.Control size="sm" name="gerencia" type="text" ref={register} />
           </Col>
           <Col md="0" className="ml-5">
-            <Label><strong>Para Funcionarios FBS señalar Ubicación</strong> <br></br>(Oficina Principal, Colegio ó Centro Médico)</Label>
-          </Col>
-          <Col md="3">
+            <span className="nota_ubicacion_fbs"><strong>Para Funcionarios FBS señalar Ubicación</strong> <br></br>(Oficina Principal, Colegio ó Centro Médico)</span>
+          </Col> 
+          <Col md="3"> 
             <Form.Control size="sm" name="ubicacion" as="select" ref={register}>
               <option>Oficina Principal</option>
               <option>Colegio para Hijos de Empleados de la CGR</option>
@@ -74,25 +73,25 @@ function InformacionLaboralFuncionario() {
 
         <Row className="mb-3">{/*Direccion, piso, telefono, extension */}
           <Col md="0">
-            <Label>Direccion</Label>
+            <span>Direccion</span>
           </Col>
           <Col md="4" className="mr-5">
             <Form.Control size="sm" name="direccion_oficina" type="text" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
-            <Label>Piso</Label>
+            <span>Piso</span>
           </Col>
           <Col md="1">
             <Form.Control size="sm" name="piso" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
-            <Label>Teléfono</Label>
+            <span>Teléfono</span>
           </Col>
           <Col md="2"> 
             <Form.Control size="sm" name="telefono_oficina" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
-            <Label>Extensión</Label>
+            <span>Extensión</span>
           </Col>
           <Col md="1">
             <Form.Control size="sm" name="extension" type="number" ref={register} />
@@ -101,7 +100,7 @@ function InformacionLaboralFuncionario() {
 
         <Row className="mb-3">{/*Nombramiento, Cargo y grado*/}
           <Col md="0">
-            <Label>Nombramiento</Label>
+            <span>Nombramiento</span>
           </Col>
           <Col md="4">
             <Form.Control size="sm" name="nombramiento" as="select" ref={register}>
@@ -112,7 +111,7 @@ function InformacionLaboralFuncionario() {
             </Form.Control>
           </Col>
           <Col md="0" className="ml-5">
-            <Label>Cargo y Grado</Label>
+            <span>Cargo y Grado</span>
           </Col>
           <Col md="5">
             <Form.Control size="sm" name="cargo" as="select" ref={register}>
@@ -127,7 +126,7 @@ function InformacionLaboralFuncionario() {
 
         <Row className="mb-3">{/*Estado del cargo y Fecha ingreso*/}
           <Col md="0">
-            <Label>Estado del cargo</Label>
+            <span>Estado del cargo</span>
           </Col>
           <Col md="4" className="mr-4">
             <Form.Control size="sm" name="estado_cargo" as="select" ref={register}>
@@ -141,22 +140,22 @@ function InformacionLaboralFuncionario() {
             </Form.Control>
           </Col>
           <Col md="0">
-            <Label>Fecha de ingreso</Label>
+            <span>Fecha de ingreso</span>
           </Col>
           <Col md="0" className="ml-5">
-              <Label>Día</Label>
+              <span>Día</span>
           </Col>
           <Col md="1">
             <Form.Control size="sm" name="dia" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-2">
-            <Label>Mes</Label>
+            <span>Mes</span>
           </Col>
           <Col md="1">
             <Form.Control size="sm" name="mes" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-2">
-            <Label>Año</Label>
+            <span>Año</span>
           </Col>
           <Col md="1">
             <Form.Control size="sm" name="ano" type="number" ref={register} />
@@ -165,13 +164,13 @@ function InformacionLaboralFuncionario() {
 
         <Row className="mb-3">{/*E-mail institucional y Nota*/}
           <Col md="0">
-            <Label>E-mail Institucional</Label>
+            <span>E-mail Institucional</span>
           </Col>
           <Col md="4">
             <Form.Control size="sm" name="email" type="email" ref={register} />
           </Col>
           <Col>
-            <Label className="nota_certificado">Nota: Se debe anexar certificado tiempo de servicio historico cuando la vinculación no ha sido permanente (Literal f numeral 8 Artículo 14 Manual de Crédito Acuerdo 01 de 2014)</Label>
+            <span className="nota_certificado">Nota: Se debe anexar certificado tiempo de servicio historico cuando la vinculación no ha sido permanente (Literal f numeral 8 Artículo 14 Manual de Crédito Acuerdo 01 de 2014)</span>
           </Col>                
         </Row>        
   

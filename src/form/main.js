@@ -31,7 +31,7 @@ function Main() {
 
   // Metodos principales de React-hook-form para capturar los datos, manejar validaciones y crear el contexto del formulario
   const methods = useForm();
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, watch } = methods;
   
   // Variables de estado (hooks) y sus Setters
   const [fechaNacimiento, setFechaNacimiento] = useState(); 
@@ -64,9 +64,9 @@ function Main() {
     console.log(data);
 
     // alert(JSON.stringify(data));
-    alert(JSON.stringify(personasaCargo));
+    alert(JSON.stringify(referenciasFamiliares));
 
-    /*
+    
     axios.post(URL, data)
         .then(response => {
           console.log(response);
@@ -76,7 +76,7 @@ function Main() {
           //alert('fallo creando pedido' + error);
           console.log(error)
         }); 
-    */
+    
     
   };   
 

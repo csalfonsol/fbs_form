@@ -1,25 +1,16 @@
 // Librerias
-import React, { useState } from 'react';
+import React from 'react';
 
 // Layout
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/app.css';
 
-// Componentes formulario
-import InformacionPersonalFuncionario from './section1';
-import ReferenciasFamiliares from './section2';
-import InformacionLaboralFuncionario from './section3';
-import InformacionSolicitudDelCredito from './section4';
 
 
 

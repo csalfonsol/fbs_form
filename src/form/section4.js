@@ -58,7 +58,9 @@ function InformacionSolicitudDelCredito() {
       <div>
         <h3 className="mb-3 mt-5">4. Información solicitud del crédito</h3>      
           
-        <Label className="mb-2">Línea de crédito</Label> 
+        <Col md="0">          
+          <Label className="mb-2">Línea de crédito</Label> 
+        </Col>
         <Row className="mb-3 ml-1 text-center">{/*Linea de crédito*/}                              
           <Col md="3"> {/* Vivienda */} 
             <Alert variant={'secondary'}>

@@ -1,9 +1,10 @@
 // Librerias
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form' 
 import ReactTable from 'react-table-6';
 import DatePicker from "react-datepicker";
 import es from 'date-fns/locale/es';
-import { useFormContext } from 'react-hook-form' 
+import axios from 'axios';
 
 // Layout
 import Form from 'react-bootstrap/Form';
@@ -11,7 +12,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Label from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 // Estilos
@@ -21,15 +21,94 @@ import "react-datepicker/dist/react-datepicker.css";
 import '../styles/app.css';
 
 
+
+// URL del servidor para solicitar los departamentos
+const URL_departamentos = 'http://3.80.200.194/ords/snw_fonviv/lista/departamento'
+
+// URL del servidor para solicitar municipios a partir de un departamento
+var URL_municipios = 'http://3.80.200.194/ords/snw_fonviv/lista/municipio?id_departamento='
+
+
+
+
 const InformacionPersonalFuncionario = props => {
-  
   
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;  
+  const watch = useFormContext().watch;  
+
+  const [departamentos, setDepartamentos] = useState();
+  const [municipios, setMunicipios] = useState();
   
   // Se llama la función (Callback) del componente padre (Main)
   function cambiarFechaNacimiento(fecha) { props.cambiarFechaNacimiento(fecha); }
-  function cambiarPersonasaCargo(data) { props.cambiarPersonasaCargo(data); }
+  function cambiarPersonasaCargo(data) { props.cambiarPersonasaCargo(data); }  
+
+
+  // Se ejecuta cada vez que se renderiza este componente
+  useEffect(() => {   
+    // Se carga la lista de departamentos y municipios
+   async function obtenerDepartamentos() {
+      try {
+        let response = await axios.get(URL_departamentos);
+        let data = response.data.items;
+        let URL = URL_municipios;
+        let result = [];        
+        
+        for (let index in data) {                   
+          result.push(<option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>)
+        }
+        setDepartamentos(result)
+        
+        URL += watch('departamento');
+        response = await axios.get(URL);
+        data = response.data.items;
+        result = [];
+
+        for (let index in data) {                   
+          result.push(
+            <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
+          )
+        }
+        setMunicipios(result) 
+
+      } catch (error) {
+        console.log('Fallo obteniendo los departamentos / municipios' + error)
+      }      
+    }    
+    obtenerDepartamentos();            
+  }, [])
+
+
+  // Recalcular listado de municipios con base al departamento seleccionado
+  const recalcularMunicipios = e => {     
+    
+    let URL = URL_municipios;
+    URL += watch('departamento');
+
+    
+
+    axios.get(URL)
+      .then(response => {        
+        
+        let data = response.data.items;
+        let result = [];
+        
+        for (let index in data) {                   
+          result.push(
+            <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
+          )
+        }
+        setMunicipios(result) 
+        
+        console.log(response);       
+      })
+      .catch(error => {        
+        console.log('Fallo obteniendo los municipios' + error)
+      });
+
+   
+  }
 
 
   // Agregar una persona a cargo en el datagrid de personas a cargo
@@ -104,16 +183,16 @@ const InformacionPersonalFuncionario = props => {
           
           <Row className="mb-3">{/*Nombres y apellidos */}
             <Col md="0" >
-              <Label>Nombres y Apellidos completos</Label>
+              <span>Nombres y Apellidos completos</span>
             </Col>
             <Col>
               <Form.Control size="sm" name="nombres" type="text" ref={register} />
-            </Col>
+            </Col>  
           </Row>
 
           <Row className="mb-3">{/*Documento, sexo y movil */}
             <Col md="0">
-              <Label>Tipo Documento</Label>
+              <span>Tipo Documento</span>
             </Col>
             <Col md="1">
               <Form.Control size="sm" name="tipo_documento" as="select" ref={register}>
@@ -122,13 +201,13 @@ const InformacionPersonalFuncionario = props => {
               </Form.Control>
             </Col>
             <Col md="0" className="ml-5">
-              <Label>No. Documento</Label>
+              <span>No. Documento</span>
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="documento" type="number" ref={register} />
             </Col>
             <Col md="0" className="ml-5">
-              <Label>Sexo</Label>
+              <span>Sexo</span>
             </Col>
             <Col md="2"> 
               <Form.Control size="sm" name="sexo" as="select" ref={register}>
@@ -138,7 +217,7 @@ const InformacionPersonalFuncionario = props => {
               </Form.Control>
             </Col>
             <Col md="0" className="ml-5">
-              <Label>Teléfono Móvil</Label>
+              <span>Teléfono Móvil</span>
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="movil" type="number" ref={register} />
@@ -147,34 +226,38 @@ const InformacionPersonalFuncionario = props => {
 
           <Row className="mb-3">{/*Direccion y Teléfono fijo */}
             <Col md="0" >
-              <Label>Dirección Residencia</Label>
+              <span>Dirección Residencia</span>
             </Col>
             <Col md="7">
               <Form.Control size="sm" name="direccion" type="text" ref={register} />
             </Col>
             <Col md="0" className="ml-4">
-              <Label>Teléfono Fijo</Label>
+              <span>Teléfono Fijo</span>
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="fijo" type="number" ref={register} />
             </Col>
           </Row>
-
-          <Row className="mb-3">{/*Ciudad, departamento e email*/}
+          
+          <Row className="mb-3">{/*Municipio, departamento e email*/}
             <Col md="0" >
-              <Label>Departamento</Label>
+              <span>Departamento</span>
             </Col>
             <Col md="2">
-              <Form.Control size="sm" name="departamento" type="text" ref={register} />
+              <Form.Control size="sm" name="departamento" as="select" onChange={recalcularMunicipios} ref={register}>
+                {departamentos}
+              </Form.Control>
             </Col>
             <Col md="0" >
-              <Label>Ciudad</Label>
+              <span>Municipio</span>
             </Col>
             <Col md="3">
-              <Form.Control size="sm" name="ciudad" type="text" ref={register} />
+             <Form.Control size="sm" name="municipio" as="select" ref={register}>
+                {municipios}
+              </Form.Control>
             </Col>            
             <Col md="0" className="ml-5">
-              <Label>E-mail Personal</Label>
+              <span>E-mail Personal</span>
             </Col>
             <Col md="3">
               <Form.Control size="sm" name="email" type="email" ref={register} />
@@ -183,7 +266,7 @@ const InformacionPersonalFuncionario = props => {
 
           <Row className="mb-4 pb-2">{/*Fecha nacimiento, Estado civil y Personas a cargo*/}
             <Col md="0" className="mr-3">
-              <Label>Fecha Nacimiento</Label>
+              <span>Fecha Nacimiento</span>
             </Col>        
             <DatePicker
               selected={props.fechaNacimiento}
@@ -198,15 +281,15 @@ const InformacionPersonalFuncionario = props => {
               dropdownMode="select"                                          
             />
             <Col md="0" className="ml-5">
-              <Label>Estado Civil</Label>
+              <span>Estado Civil</span>
             </Col>
             <Col md="2">
-              <Form.Control size="sm" name="ciudad" type="text" ref={register} />
+              <Form.Control size="sm" name="civil" type="text" ref={register} />
             </Col>           
           </Row>
           
           <Row className="mt-4">
-            <Label className="pt-1">Personas a cargo: &nbsp; <strong>{props.personasaCargo.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <span className="pt-1">Personas a cargo: &nbsp; <strong>{props.personasaCargo.length}</strong></span>  &nbsp;&nbsp;&nbsp;
             <Button className="mb-2" onClick={agregar} size="sm" variant="info">
               Agregar
             </Button> 
@@ -259,13 +342,13 @@ const InformacionPersonalFuncionario = props => {
 
           <Row className="mb-3 mt-4">{/*Conyugue y su documento*/}
             <Col md="0" >
-              <Label>Nombre Cónyugue</Label>
+              <span>Nombre Cónyugue</span>
             </Col>
             <Col md="7">
               <Form.Control size="sm" name="conyugue" type="text" ref={register} />
             </Col>
             <Col md="0" className="ml-4">
-              <Label>No. Documento</Label>
+              <span>No. Documento</span>
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="documento_conyugue" type="number" ref={register} />
@@ -274,13 +357,13 @@ const InformacionPersonalFuncionario = props => {
 
           <Row className="mb-3">{/*Movil y trabajo del conyugue*/}
             <Col md="0" >
-              <Label>Teléfono Móvil</Label>
+              <span>Teléfono Móvil</span>
             </Col>
             <Col md="3">
               <Form.Control size="sm" name="movil_conyugue" type="number" ref={register} />
             </Col>
             <Col md="0" className="ml-5">
-              <Label>Empresa donde trabaja</Label>
+              <span>Empresa donde trabaja</span>
             </Col>
             <Col md="5">
               <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
@@ -289,13 +372,13 @@ const InformacionPersonalFuncionario = props => {
 
           <Row className="mb-3">{/*Telefono oficina e email del conyugue*/}
             <Col md="0" >
-              <Label>Teléfono Oficina</Label>
+              <span>Teléfono Oficina</span>
             </Col>
             <Col md="3">
               <Form.Control size="sm" name="movil_conyugue" type="number" ref={register} />
             </Col>
             <Col md="0" className="ml-5">
-              <Label>E-mail personal</Label>
+              <span>E-mail personal</span>
             </Col>
             <Col md="5">
               <Form.Control size="sm" name="empresa_conyugue" type="email" ref={register} />
