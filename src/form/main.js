@@ -33,31 +33,38 @@ function Main() {
   const methods = useForm();
   const { register, handleSubmit } = methods;
   
-  // Variables de estado (hooks)
+  // Variables de estado (hooks) y sus Setters
   const [fechaNacimiento, setFechaNacimiento] = useState(); 
   const [personasaCargo, setPersonasaCargo] = useState([ // Datagrid de personas a cargo
     [,"", "",]
   ]);
+  const [referenciasFamiliares, setReferenciasFamiliares] = useState([ // Datagrid de referencias familiares
+    [,"", "",]
+  ]);
 
-  
+  // Funciones para llamar los Setters de los hooks de las variables de estado
+  function cambiarFechaNacimiento(nuevaFecha) { setFechaNacimiento(nuevaFecha); }
+  function cambiarPersonasaCargo(data) { setPersonasaCargo(data); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
+  function cambiarReferenciasFamiliares(data) { setReferenciasFamiliares(data); } 
+
   
   // Funcion que se ejecuta al enviar el formulario, si las validaciones son exitosas
   const onSubmit = data => {
-
    
     let fechaFormateada = 
       (fechaNacimiento.getDate()).toString() + '/' +
       (fechaNacimiento.getMonth()+1).toString() + '/' + 
       (fechaNacimiento.getFullYear()).toString();
     
+    // Se acoplan los datos NO implícitos por el register de react-hook-form
     data.personasaCargo = personasaCargo;
+    data.referenciasFamiliares = referenciasFamiliares;
     data.fechaNacimiento = fechaFormateada;
 
     console.log(data);
 
-    //alert(JSON.stringify(data));
-    alert(JSON.stringify(fechaFormateada));
-
+    // alert(JSON.stringify(data));
+    alert(JSON.stringify(personasaCargo));
 
     /*
     axios.post(URL, data)
@@ -71,19 +78,8 @@ function Main() {
         }); 
     */
     
-  }; 
+  };   
 
-  // Funciones para llamar el Set de los hooks de las variables de estado
-  function cambiarFechaNacimiento(nuevaFecha) { setFechaNacimiento(nuevaFecha); }
-  function cambiarPersonasaCargo(data) { setPersonasaCargo(data); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
-  
-  const handleClick = data => {
-   
-    // console.log(data);
-    alert('hola');
-  }; 
-
-  // console.log(watch("nombres")); // Se puede usar watch para ver el valor del item pasado por parametro
 
   return (    
 
@@ -102,7 +98,8 @@ function Main() {
             fechaNacimiento={fechaNacimiento} cambiarFechaNacimiento={cambiarFechaNacimiento} 
             personasaCargo={personasaCargo} cambiarPersonasaCargo={cambiarPersonasaCargo}/>
 
-          <ReferenciasFamiliares />
+          <ReferenciasFamiliares 
+            referenciasFamiliares={referenciasFamiliares} cambiarReferenciasFamiliares={cambiarReferenciasFamiliares}/>
 
           <InformacionLaboralFuncionario />
 

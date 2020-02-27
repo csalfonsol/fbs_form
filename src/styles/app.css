@@ -1,28 +1,22 @@
 body {
-
     margin: 2%;
-
 }
 
 .nota_certificado {
-
     font-size: medium;
     font-style: italic;
 }
 
 .nota_pago {
-
     font-size: small;
     font-style: italic;
 }
 
 .nota_vehiculo {
-
     font-size: small;    
 }
 
 .caja_firma {
-
     height: 100px;
     width: 90%;
     margin-bottom: 0px;
@@ -41,3 +35,10 @@ body {
      border-style: solid;*/
 }
 
+.blue {
+    background-color: rgb(240, 255, 255);
+}
+
+.cell {
+    background-color: rgb(247, 247, 247);
+}

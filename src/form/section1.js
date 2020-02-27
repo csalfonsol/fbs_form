@@ -1,19 +1,17 @@
 // Librerias
-import React, { useState, useEffect }  from 'react';
+import React from 'react';
 import ReactTable from 'react-table-6';
 import DatePicker from "react-datepicker";
 import es from 'date-fns/locale/es';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
 import Label from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
 // Estilos
@@ -35,27 +33,40 @@ const InformacionPersonalFuncionario = props => {
 
 
   // Agregar una persona a cargo en el datagrid de personas a cargo
-  const agregar = e => {       
-    let result = [...props.personasaCargo];
-    result.push([,"", "",])
-    cambiarPersonasaCargo(result);
-  }; 
-  
+  const agregar = e => {     
+    
+    // Máximo pueden haber 4 personas a cargo
+    if (props.personasaCargo.length < 4){ 
+      let result = [...props.personasaCargo];
+      result.push([,"", "",])
+      cambiarPersonasaCargo(result);
+    }
+  }
 
   // Celda para ingresar datos
   function renderEditable(cellInfo) {
     return (
-      <div
-        style={{ backgroundColor: "#fafafa" }}
-        contentEditable
-                   
-         // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
-         onBlur = {e => {
-          const newData = [...props.personasaCargo];
-          newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;          
-          cambiarPersonasaCargo( newData );
-        }}
-                
+      <div        
+        className = "cell"
+        contentEditable                   
+
+        // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
+        onBlur = {e => {
+          // Se valida si la edad es numerica o no
+          if (cellInfo.column.id === 3){
+            if (!isNaN(e.target.innerHTML)){
+              const newData = [...props.personasaCargo];
+              newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;                          
+              cambiarPersonasaCargo(newData);
+            }
+          }          
+          else {
+              const newData = [...props.personasaCargo];
+              newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;                          
+              cambiarPersonasaCargo(newData);
+          }
+        }}   
+
         dangerouslySetInnerHTML = {{
           __html: props.personasaCargo[cellInfo.index][cellInfo.column.id]
         }} 
@@ -63,17 +74,18 @@ const InformacionPersonalFuncionario = props => {
     );
   }
 
-
   // Celda para eliminar la fila
   function renderDelete(cellInfo) {
     return (
       <Button 
-        onClick = {e => {
 
-          let result = [...props.personasaCargo];
-          result.splice(cellInfo.index , 1);          
-          cambiarPersonasaCargo(result);
-          
+        onClick = {e => {
+          // Mínimo debe haber una persona a cargo
+          if (props.personasaCargo.length > 1){ 
+            let result = [...props.personasaCargo];
+            result.splice(cellInfo.index , 1);          
+            cambiarPersonasaCargo(result);       
+          }   
         }}
 
         size="sm" 
@@ -172,9 +184,7 @@ const InformacionPersonalFuncionario = props => {
           <Row className="mb-4 pb-2">{/*Fecha nacimiento, Estado civil y Personas a cargo*/}
             <Col md="0" className="mr-3">
               <Label>Fecha Nacimiento</Label>
-            </Col>
-            
-
+            </Col>        
             <DatePicker
               selected={props.fechaNacimiento}
               onChange={date => cambiarFechaNacimiento(date)}
@@ -185,11 +195,8 @@ const InformacionPersonalFuncionario = props => {
               peekNextMonth
               showMonthDropdown
               showYearDropdown
-              dropdownMode="select"              
-                            
+              dropdownMode="select"                                          
             />
-            
-
             <Col md="0" className="ml-5">
               <Label>Estado Civil</Label>
             </Col>
@@ -200,22 +207,14 @@ const InformacionPersonalFuncionario = props => {
           
           <Row className="mt-4">
             <Label className="pt-1">Personas a cargo: &nbsp; <strong>{props.personasaCargo.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
-            <Button className="mb-2" onClick={agregar} size="sm" variant="info">{/*Agregar una persona a cargo en el datagrid de personas a cargo*/}
+            <Button className="mb-2" onClick={agregar} size="sm" variant="info">
               Agregar
             </Button> 
           </Row>
 
-          <Col md="0">          
-            {/*
-            <Button onClick={handleClick} size="sm" variant="primary">
-             ver data  
-            </Button>   
-            */}
-
-            <ReactTable /* Datagrid de Personas a cargo */
-              
+          <Col md="0">                    
+            <ReactTable /* Datagrid de Personas a cargo */              
               data = {props.personasaCargo}
-
               columns={[
                 {
                   id: 1,
@@ -254,10 +253,8 @@ const InformacionPersonalFuncionario = props => {
               pageSize = {props.personasaCargo.length}
               showPagination = {false}            
               resizable = {false}  
-              className = "-striped -highlight"
-            />
-
-            
+              className = "-striped -highlight blue"
+            />           
           </Col>         
 
           <Row className="mb-3 mt-4">{/*Conyugue y su documento*/}

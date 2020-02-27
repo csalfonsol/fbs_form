@@ -1,10 +1,9 @@
 // Librerias
 import React from 'react';
+import ReactTable from 'react-table-6';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
@@ -19,46 +18,139 @@ import '../styles/app.css';
 
 
 
-function ReferenciasFamiliares() {
+const ReferenciasFamiliares = props =>  {
 
-  // Funcion utilizada para conectar con el contexto principal del formulario
-  const register = useFormContext().register;    
+
+  // Se llama la función (Callback) del componente padre (Main)
+  function cambiarReferenciasFamiliares(data) { props.cambiarReferenciasFamiliares(data); }
+
+
+  // Agregar una referencia familiar en el datagrid de referencias familiares
+  const agregar = e => {     
+    
+    // Máximo pueden haber 4 personas a cargo
+    if (props.referenciasFamiliares.length < 4){ 
+      let result = [...props.referenciasFamiliares];
+      result.push([,"", "",])
+      cambiarReferenciasFamiliares(result);    
+    }
+  }
+
+  // Celda para ingresar datos
+  function renderEditable(cellInfo) {
+    return (
+      <div        
+        className = "cell"
+        contentEditable                   
+
+        // La variable de estado se actualiza cada vez que se suelta el foco de la celda actual
+        onBlur = {e => {
+          // Se valida si la edad es numerica o no
+          if (cellInfo.column.id === 3){
+            if (!isNaN(e.target.innerHTML)){
+              const newData = [...props.referenciasFamiliares];
+              newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;                          
+              cambiarReferenciasFamiliares(newData);
+            }
+          }          
+          else {
+              const newData = [...props.referenciasFamiliares];
+              newData[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;                          
+              cambiarReferenciasFamiliares(newData);
+          }
+        }}   
+
+        dangerouslySetInnerHTML = {{
+          __html: props.referenciasFamiliares[cellInfo.index][cellInfo.column.id]
+        }} 
+      />
+    );
+  }
+
+  // Celda para eliminar la fila
+  function renderDelete(cellInfo) {
+    return (
+      <Button 
+
+        onClick = {e => {
+          // Mínimo debe haber una persona a cargo
+          if (props.referenciasFamiliares.length > 1){ 
+            let result = [...props.referenciasFamiliares];
+            result.splice(cellInfo.index , 1);          
+            cambiarReferenciasFamiliares(result);       
+          }   
+        }}
+
+        size="sm" 
+        variant="danger"
+        className="rellenar">    
+          Eliminar
+      </Button> 
+    );
+  }
 
   return (
       
       <div>
+        
         <h3 className="mb-3 mt-5">2. Referencias familiares</h3>      
-          
-          <Alert variant={'info'}>
-            Datagrid de referencias familiares
 
-            <Row className="mb-3 mt-4 text-center">{/*Nombres, apellidos, Ciudad y Telefono */}
-              <Col>
-                <Label>Nombres y Apellidos</Label>
-              </Col>
-              <Col>
-                <Label>Ciudad de residencia</Label>
-              </Col>
-              <Col>
-                <Label>No. Teléfono fijo / móvil</Label>
-              </Col>
-            </Row>
+          <Row className="mt-4">
+            <Label className="pt-1">Referencias familiares: &nbsp; <strong>{props.referenciasFamiliares.length}</strong></Label>  &nbsp;&nbsp;&nbsp;
+            <Button className="mb-2" onClick={agregar} size="sm" variant="info">
+              Agregar
+            </Button> 
+          </Row>
 
-            <Row className="mb-3 text-center">{/*Nombres, apellidos, Ciudad y Telefono */}
-              <Col>
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-              <Col>
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-              <Col>
-                <Form.Control size="sm" name="empresa_conyugue" type="text" ref={register} />
-              </Col>
-            </Row>
-          </Alert>  
-
-          
-  
+          <Col md="0">          
+            {/*
+            <Button onClick={handleClick} size="sm" variant="primary">
+             ver data  
+            </Button>   
+            */}
+            <ReactTable /* Datagrid de referencias familiares */              
+              data = {props.referenciasFamiliares}
+              columns={[
+                {
+                  id: 1,
+                  Header: "Nombres y apellidos",
+                  accessor: "nombres",
+                  width: 500,
+                  headerClassName: "encabezado_columna",
+                  Cell: renderEditable
+                },
+                {
+                  id: 2,
+                  Header: "Ciudad de residencia",
+                  accessor: "ciudad",         
+                  headerClassName: "encabezado_columna",                           
+                  Cell: renderEditable
+                },
+                {
+                  id: 3,
+                  Header: "No. Teléfono fijo / móvil",
+                  accessor: "telefono",              
+                  width: 220,                                    
+                  className: "text-center",
+                  headerClassName: "encabezado_columna",
+                  Cell: renderEditable
+                },
+                {
+                  id: 4,
+                  Header: "Eliminar",
+                  accessor: "delete",              
+                  width: 250,
+                  className: "text-center",
+                  headerClassName: "encabezado_columna",
+                  Cell: renderDelete
+                }
+              ]}              
+              pageSize = {props.referenciasFamiliares.length}
+              showPagination = {false}            
+              resizable = {false}  
+              className = "-striped -highlight blue"
+            />           
+          </Col>     
       </div>                      
     
   );
