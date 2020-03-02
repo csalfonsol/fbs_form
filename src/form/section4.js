@@ -68,7 +68,7 @@ function InformacionSolicitudDelCredito() {
                 <input className="mr-1" type="radio" value="vivienda" 
                   checked = {linea === 'vivienda'}  
                   onChange = {cambiarLinea}/>
-                  <strong>Vivienda</strong>
+                <strong>Vivienda</strong>
               </Label>
               <Label className="mb-2 text-left">No. Vez</Label>    
               <Row>
@@ -76,19 +76,19 @@ function InformacionSolicitudDelCredito() {
                   <input className="ml-2" type="radio" value="1" 
                     checked = {vezVivienta === '1'}  
                     onChange = {cambiarVezVivienda}/>
-                    1 Vez
+                  1 Vez
                 </Label> 
                 <Label className="mr-4">
                   <input className="" type="radio" value="2" 
                     checked = {vezVivienta === '2'}  
                     onChange = {cambiarVezVivienda}/>
-                    2 Vez
+                  2 Vez
                 </Label>
                 <Label>
                   <input className="" type="radio" value="3" 
                     checked = {vezVivienta === '3'}  
                     onChange = {cambiarVezVivienda}/>
-                    3 Vez
+                  3 Vez
                 </Label>
               </Row> 
               <Label className="mb-2 mt-4 text-left">Modalidad</Label>                  
@@ -233,9 +233,7 @@ function InformacionSolicitudDelCredito() {
                 <strong>Monto solicitado</strong>
             </Label>            
             <Label className="text-left">
-              <input className="mr-1 mb-3" type="radio" value="calamidad" 
-                checked = {linea === 'calamidad'}  
-                onChange = {cambiarLinea}/>
+              <input className="mr-1 mb-3" type="checkbox" value="calamidad"/>
                 Cupo máximo permitido
             </Label>
             <Row>

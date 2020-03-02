@@ -1,6 +1,5 @@
 // Librerias
 import React from 'react';
-import ReactTable from 'react-table-6';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
@@ -10,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 // Elementos
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import ReactTable from 'react-table-6';
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';

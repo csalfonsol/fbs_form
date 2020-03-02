@@ -1,8 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form' 
-import ReactTable from 'react-table-6';
-import DatePicker from "react-datepicker";
 import es from 'date-fns/locale/es';
 import axios from 'axios';
 
@@ -13,6 +11,8 @@ import Row from 'react-bootstrap/Row';
 
 // Elementos
 import Button from 'react-bootstrap/Button';
+import ReactTable from 'react-table-6';
+import DatePicker from "react-datepicker";
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -51,8 +51,7 @@ const InformacionPersonalFuncionario = props => {
    async function obtenerDepartamentos() {
       try {
         let response = await axios.get(URL_departamentos);
-        let data = response.data.items;
-        let URL = URL_municipios;
+        let data = response.data.items;      
         let result = [];        
         
         for (let index in data) {                   
@@ -60,17 +59,8 @@ const InformacionPersonalFuncionario = props => {
         }
         setDepartamentos(result)
         
-        URL += watch('departamento');
-        response = await axios.get(URL);
-        data = response.data.items;
-        result = [];
-
-        for (let index in data) {                   
-          result.push(
-            <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
-          )
-        }
-        setMunicipios(result) 
+        // Se obtiene el municipio por defecto a partir del departamento por defecto
+        recalcularMunicipios()
 
       } catch (error) {
         console.log('Fallo obteniendo los departamentos / municipios' + error)
@@ -86,8 +76,6 @@ const InformacionPersonalFuncionario = props => {
     let URL = URL_municipios;
     URL += watch('departamento');
 
-    
-
     axios.get(URL)
       .then(response => {        
         
@@ -99,15 +87,11 @@ const InformacionPersonalFuncionario = props => {
             <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
           )
         }
-        setMunicipios(result) 
-        
-        console.log(response);       
+        setMunicipios(result)                       
       })
       .catch(error => {        
         console.log('Fallo obteniendo los municipios' + error)
-      });
-
-   
+      });   
   }
 
 

@@ -35,6 +35,7 @@ function Main() {
   
   // Variables de estado (hooks) y sus Setters
   const [fechaNacimiento, setFechaNacimiento] = useState(); 
+  const [fechaIngreso, setFechaIngreso] = useState(); 
   const [personasaCargo, setPersonasaCargo] = useState([ // Datagrid de personas a cargo
     [,"", "",]
   ]);
@@ -42,8 +43,32 @@ function Main() {
     [,"", "",]
   ]);
 
+
+
+
+  // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
+  const [linea, setLinea] = useState();  
+
+  const [vez, setVez] = useState('1');  
+  const [modalidad, setModalidad] = useState();  
+  const [cardinalidadVivienta, setCardinalidadVivienta] = useState('individual');  
+  const [primas, setPrimas] = useState('1');  
+  
+
+  const cambiarLinea = e => { setLinea(value); }; 
+  const cambiarVez = e => { setVez(value); }; 
+  const cambiarModalidad = e => { setModalidad(value); }; 
+  const cambiarCardinalidadVivienta = e => { setCardinalidadVivienta(value); }; 
+  const cambiarPrimas = e => { setPrimas(value); }; 
+
+
+
+
+
+
   // Funciones para llamar los Setters de los hooks de las variables de estado
   function cambiarFechaNacimiento(nuevaFecha) { setFechaNacimiento(nuevaFecha); }
+  function cambiarFechaIngreso(nuevaFecha) { setFechaIngreso(nuevaFecha); }
   function cambiarPersonasaCargo(data) { setPersonasaCargo(data); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
   function cambiarReferenciasFamiliares(data) { setReferenciasFamiliares(data); } 
 
@@ -55,11 +80,19 @@ function Main() {
       (fechaNacimiento.getDate()).toString() + '/' +
       (fechaNacimiento.getMonth()+1).toString() + '/' + 
       (fechaNacimiento.getFullYear()).toString();
-    
-    // Se acoplan los datos NO implícitos por el register de react-hook-form
-    data.personasaCargo = personasaCargo;
-    data.referenciasFamiliares = referenciasFamiliares;
+
     data.fechaNacimiento = fechaFormateada;
+      
+      fechaFormateada = 
+      (fechaIngreso.getDate()).toString() + '/' +
+      (fechaIngreso.getMonth()+1).toString() + '/' + 
+      (fechaIngreso.getFullYear()).toString();
+
+    data.fechaIngreso = fechaFormateada;
+
+    // Se acoplan los datos de los datagrids NO implícitos por el register de react-hook-form
+    data.personasaCargo = personasaCargo;
+    data.referenciasFamiliares = referenciasFamiliares;  
 
     console.log(data);
 
@@ -70,7 +103,6 @@ function Main() {
     axios.post(URL, data)
         .then(response => {
           console.log(response);
-          console.log('data ' + response.data);         
         })
         .catch(error => {
           //alert('fallo creando pedido' + error);
@@ -88,11 +120,7 @@ function Main() {
       <h2 className="text-center mb-5">SOLICITUD DE CRÉDITO</h2> {/*Encabezado del formulario*/}    
     
       <FormContext {...methods}>
-        <Form onSubmit = {handleSubmit(onSubmit)} >
-
-          <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
-            Enviar  
-          </Button>   
+        <Form onSubmit = {handleSubmit(onSubmit)} >          
                     
           <InformacionPersonalFuncionario 
             fechaNacimiento={fechaNacimiento} cambiarFechaNacimiento={cambiarFechaNacimiento} 
@@ -101,9 +129,14 @@ function Main() {
           <ReferenciasFamiliares 
             referenciasFamiliares={referenciasFamiliares} cambiarReferenciasFamiliares={cambiarReferenciasFamiliares}/>
 
-          <InformacionLaboralFuncionario />
+          <InformacionLaboralFuncionario             
+            fechaIngreso={fechaIngreso} cambiarFechaIngreso={cambiarFechaIngreso}/>
 
           <InformacionSolicitudDelCredito />
+
+          <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
+            Enviar  
+          </Button>   
 
           <DeclaracionAutorizacionFirma />
           

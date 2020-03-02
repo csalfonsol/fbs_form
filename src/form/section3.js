@@ -1,16 +1,15 @@
 // Librerias
 import React from 'react';
-import { useFormContext } from 'react-hook-form' 
+import { useFormContext } from 'react-hook-form'; 
+import es from 'date-fns/locale/es';
 
 // Layout
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import DatePicker from "react-datepicker";
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,10 +17,14 @@ import '../styles/app.css';
 
 
 
-function InformacionLaboralFuncionario() {
+const InformacionLaboralFuncionario = props => {
 
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;    
+
+
+  // Se llama la función (Callback) del componente padre (Main)
+  function cambiarFechaIngreso(fecha) { props.cambiarFechaIngreso(fecha); }
 
   return (
       
@@ -139,27 +142,21 @@ function InformacionLaboralFuncionario() {
               <option>Suspensión definida</option>
             </Form.Control>
           </Col>
-          <Col md="0">
+          <Col md="0" className="mr-3">
             <span>Fecha de ingreso</span>
           </Col>
-          <Col md="0" className="ml-5">
-              <span>Día</span>
-          </Col>
-          <Col md="1">
-            <Form.Control size="sm" name="dia" type="number" ref={register} />
-          </Col>
-          <Col md="0" className="ml-2">
-            <span>Mes</span>
-          </Col>
-          <Col md="1">
-            <Form.Control size="sm" name="mes" type="number" ref={register} />
-          </Col>
-          <Col md="0" className="ml-2">
-            <span>Año</span>
-          </Col>
-          <Col md="1">
-            <Form.Control size="sm" name="ano" type="number" ref={register} />
-          </Col>        
+          <DatePicker
+            selected={props.fechaIngreso}
+            onChange={date => cambiarFechaIngreso(date)}
+            maxDate={new Date()}
+            dateFormat="dd/MM/yyyy"
+            locale={es}
+            isClearable
+            peekNextMonth
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"                                          
+          />      
         </Row>
 
         <Row className="mb-3">{/*E-mail institucional y Nota*/}
