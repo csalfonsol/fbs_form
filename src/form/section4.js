@@ -3,36 +3,31 @@ import React, { useState }  from 'react';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
 import Label from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 // Estilos
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/app.css';
 
-
-
-function InformacionSolicitudDelCredito() {
+const InformacionSolicitudDelCredito = props => {
 
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;    
 
-  // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
-  const [linea, setLinea] = useState('vehiculo');  
+  
 
-  const [vezVivienta, setVezVivienda] = useState('1');  
-  const [modalidadVivienta, setModalidadVivienta] = useState('compra');  
-  const [cardinalidadVivienta, setCardinalidadVivienta] = useState('individual');
+  const [vezVivienta, setVezVivienda] = useState();  
+  const [modalidadVivienta, setModalidadVivienta] = useState();  
+  const [cardinalidadVivienta, setCardinalidadVivienta] = useState();
 
-  const [vezVehiculo, setVezVehiculo] = useState('1');  
-  const [modalidadVehiculo, setModalidadVehiculo] = useState('compra');  
+  const [vezVehiculo, setVezVehiculo] = useState();  
+  const [modalidadVehiculo, setModalidadVehiculo] = useState();  
 
   const [modalidadBienestar, setModalidadBienestar] = useState('educacion');  
 
@@ -40,18 +35,18 @@ function InformacionSolicitudDelCredito() {
 
 
 
-  const cambiarLinea = e => { setLinea(e.target.value); }; 
-  const cambiarVezVivienda = e => { setVezVivienda(e.target.value); }; 
+  // Se llama la función (Callback) del componente padre (Main)
+  const cambiarLinea = e => { props.cambiarLinea(e.target.value); } // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
+  const cambiarVez = e => { props.cambiarVez(e.target.value); }; 
+
+  
   const cambiarModalidadVivienta = e => { setModalidadVivienta(e.target.value); }; 
   const cambiarCardinalidadVivienta = e => { setCardinalidadVivienta(e.target.value); }; 
-  const cambiarVezVehiculo = e => { setVezVehiculo(e.target.value); }; 
+  
   const cambiarModalidadVehiculo = e => { setModalidadVehiculo(e.target.value); }; 
   const cambiarModalidadBienestar = e => { setModalidadBienestar(e.target.value); }; 
   const cambiarPrimas = e => { setPrimas(e.target.value); }; 
 
-  const handleClick = e => { 
-    e.preventDefault();        
-  }; 
 
   return (
       
@@ -65,8 +60,8 @@ function InformacionSolicitudDelCredito() {
           <Col md="3"> {/* Vivienda */} 
             <Alert variant={'secondary'}>
               <Label className="mb-2">
-                <input className="mr-1" type="radio" value="vivienda" 
-                  checked = {linea === 'vivienda'}  
+                <input className="mr-1" type="radio" value = 'VI'
+                  checked = {props.linea === 'VI'}  
                   onChange = {cambiarLinea}/>
                 <strong>Vivienda</strong>
               </Label>
@@ -74,20 +69,20 @@ function InformacionSolicitudDelCredito() {
               <Row>
                 <Label className="mr-4">
                   <input className="ml-2" type="radio" value="1" 
-                    checked = {vezVivienta === '1'}  
-                    onChange = {cambiarVezVivienda}/>
+                    checked = {props.vez === '1' && props.linea === 'VI'}  
+                    onChange = {cambiarVez}/>
                   1 Vez
                 </Label> 
                 <Label className="mr-4">
                   <input className="" type="radio" value="2" 
-                    checked = {vezVivienta === '2'}  
-                    onChange = {cambiarVezVivienda}/>
+                    checked = {props.vez === '2' && props.linea === 'VI'}  
+                    onChange = {cambiarVez}/>
                   2 Vez
                 </Label>
                 <Label>
                   <input className="" type="radio" value="3" 
-                    checked = {vezVivienta === '3'}  
-                    onChange = {cambiarVezVivienda}/>
+                    checked = {props.vez === '3' && props.linea === 'VI'}  
+                    onChange = {cambiarVez}/>
                   3 Vez
                 </Label>
               </Row> 
@@ -136,8 +131,8 @@ function InformacionSolicitudDelCredito() {
           <Col md="3"> {/* Vehículo */} 
             <Alert variant={'secondary'}> 
               <Label>
-                <input className="mr-2" type="radio" value="vehiculo" 
-                  checked = {linea === 'vehiculo'}  
+                <input className="mr-2" type="radio" value = 'VH'
+                  checked = {props.linea === 'VH'}  
                   onChange = {cambiarLinea}/>
                   <strong>Vehiculo</strong>
               </Label>
@@ -145,14 +140,14 @@ function InformacionSolicitudDelCredito() {
               <Row>
                 <Label className="mr-5 ml-5">
                   <input className="ml-2" type="radio" value="1" 
-                    checked = {vezVehiculo === '1'}  
-                    onChange = {cambiarVezVehiculo}/>
+                    checked = {props.vez === '1' && props.linea === 'VH'}  
+                    onChange = {cambiarVez}/>
                     1 Vez
                 </Label> 
                 <Label className="ml-5">
                   <input className="" type="radio" value="2" 
-                    checked = {vezVehiculo === '2'}  
-                    onChange = {cambiarVezVehiculo}/>
+                    checked = {props.vez === '2' && props.linea === 'VH'}  
+                    onChange = {cambiarVez}/>
                     2 Vez
                 </Label>
               </Row>
@@ -182,8 +177,8 @@ function InformacionSolicitudDelCredito() {
           <Col md="3">  {/* Bienestar integral */}           
             <Alert variant={'secondary'}> 
               <Label>
-                <input className="mr-1" type="radio" value="bienestar" 
-                  checked = {linea === 'bienestar'}  
+                <input className="mr-1" type="radio" value = 'BI'
+                  checked = {props.linea === 'BI'}  
                   onChange = {cambiarLinea}/>
                   <strong>Bienestar integral</strong>
               </Label>
@@ -249,8 +244,8 @@ function InformacionSolicitudDelCredito() {
           <Col md="3"> 
             <Alert variant={'secondary'}>
               <Label>
-                <input className="mr-1" type="radio" value="calamidad" 
-                  checked = {linea === 'calamidad'}  
+                <input className="mr-1" type="radio" value = 'CA'
+                  checked = {props.linea === 'CA'}  
                   onChange = {cambiarLinea}/>
                   <strong>Calamidad</strong>
               </Label>

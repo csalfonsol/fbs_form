@@ -41,36 +41,24 @@ function Main() {
   ]);
   const [referenciasFamiliares, setReferenciasFamiliares] = useState([ // Datagrid de referencias familiares
     [,"", "",]
-  ]);
-
-
-
-
-  // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
+  ]);  
   const [linea, setLinea] = useState();  
-
-  const [vez, setVez] = useState('1');  
+  const [vez, setVez] = useState();  
   const [modalidad, setModalidad] = useState();  
-  const [cardinalidadVivienta, setCardinalidadVivienta] = useState('individual');  
-  const [primas, setPrimas] = useState('1');  
+  const [cardinalidadVivienta, setCardinalidadVivienta] = useState();  
+  const [primas, setPrimas] = useState();  
   
-
-  const cambiarLinea = e => { setLinea(value); }; 
-  const cambiarVez = e => { setVez(value); }; 
-  const cambiarModalidad = e => { setModalidad(value); }; 
-  const cambiarCardinalidadVivienta = e => { setCardinalidadVivienta(value); }; 
-  const cambiarPrimas = e => { setPrimas(value); }; 
-
-
-
-
-
-
+ 
   // Funciones para llamar los Setters de los hooks de las variables de estado
   function cambiarFechaNacimiento(nuevaFecha) { setFechaNacimiento(nuevaFecha); }
   function cambiarFechaIngreso(nuevaFecha) { setFechaIngreso(nuevaFecha); }
-  function cambiarPersonasaCargo(data) { setPersonasaCargo(data); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
-  function cambiarReferenciasFamiliares(data) { setReferenciasFamiliares(data); } 
+  function cambiarPersonasaCargo(nuevasPersonas) { setPersonasaCargo(nuevasPersonas); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
+  function cambiarReferenciasFamiliares(nuevasReferencias) { setReferenciasFamiliares(nuevasReferencias); } 
+  function cambiarLinea(nuevaLinea) { setLinea(nuevaLinea); }
+  function cambiarVez(nuevaVez) { setVez(nuevaVez); }
+  function cambiarModalidad(nuevaModalidad) { setModalidad(nuevaModalidad); } 
+  function cambiarCardinalidadVivienta(nuevaCardinalidad) { setCardinalidadVivienta(nuevaCardinalidad); } 
+  function cambiarPrimas(nuevaPrima) { setPrimas(nuevaPrima); } 
 
   
   // Funcion que se ejecuta al enviar el formulario, si las validaciones son exitosas
@@ -98,7 +86,6 @@ function Main() {
 
     // alert(JSON.stringify(data));
     alert(JSON.stringify(referenciasFamiliares));
-
     
     axios.post(URL, data)
         .then(response => {
@@ -107,9 +94,7 @@ function Main() {
         .catch(error => {
           //alert('fallo creando pedido' + error);
           console.log(error)
-        }); 
-    
-    
+        });         
   };   
 
 
@@ -132,7 +117,12 @@ function Main() {
           <InformacionLaboralFuncionario             
             fechaIngreso={fechaIngreso} cambiarFechaIngreso={cambiarFechaIngreso}/>
 
-          <InformacionSolicitudDelCredito />
+          <InformacionSolicitudDelCredito 
+            linea={linea} cambiarLinea={cambiarLinea}
+            vez={vez} cambiarVez={cambiarVez}
+            modalidad={modalidad} cambiarModalidad={cambiarModalidad}
+            cardinalidadVivienta={cardinalidadVivienta} cambiarCardinalidadVivienta={cambiarCardinalidadVivienta}
+            primas={primas} cambiarPrimas={cambiarPrimas}/>
 
           <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
             Enviar  
