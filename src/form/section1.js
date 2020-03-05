@@ -167,10 +167,12 @@ const InformacionPersonalFuncionario = props => {
           
           <Row className="mb-3">{/*Nombres y apellidos */}
             <Col md="0" >
-              <span>Nombres y Apellidos completos</span>
+              <span>Nombres y Apellidos</span>
             </Col>
             <Col>
-              <Form.Control size="sm" name="nombres" type="text" ref={register} />
+              <Form.Control disabled size="sm" name="nombres" type="text" 
+                value="Se autocompleta con el No. de documento..." 
+                ref={register} />
             </Col>  
           </Row>
 
@@ -178,26 +180,29 @@ const InformacionPersonalFuncionario = props => {
             <Col md="0">
               <span>Tipo Documento</span>
             </Col>
-            <Col md="1">
-              <Form.Control size="sm" name="tipo_documento" as="select" ref={register}>
-                <option>C.C</option>
-                <option>C.E</option>
+            <Col md="2">
+              <Form.Control size="sm" name="tipo_documento" as="select" ref={register}>                
+                <option value="CC">C.C</option>
+                <option value="CE">C.E</option>
+                <option value="NIT">Nit</option>
+                <option value="TI">T.I</option>
+                <option value="RC">Registro civil</option>
               </Form.Control>
             </Col>
-            <Col md="0" className="ml-5">
+            <Col md="0" className="ml-3">
               <span>No. Documento</span>
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="documento" type="number" ref={register} />
             </Col>
-            <Col md="0" className="ml-5">
+            <Col md="0" className="ml-3 mr-3">
               <span>Sexo</span>
             </Col>
-            <Col md="2"> 
+            <Col md="0"> 
               <Form.Control size="sm" name="sexo" as="select" ref={register}>
-                <option>Mujer</option>
-                <option>Hombre</option>
-                <option>Otro</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+                <option value="O">Otro</option>
               </Form.Control>
             </Col>
             <Col md="0" className="ml-5">

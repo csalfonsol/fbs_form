@@ -37,8 +37,8 @@ const InformacionLaboralFuncionario = props => {
           </Col>
           <Col md="6">
             <Form.Control size="sm" name="entidad" as="select" ref={register}>
-              <option>Fondo de Bienestar Social de la Contraloría General de la República</option>
-              <option>Contraloría General de la República</option>
+              <option value="FBS">Fondo de Bienestar Social de la Contraloría General de la República</option>
+              <option value="CGR">Contraloría General de la República</option>
             </Form.Control>
           </Col>
           <Col md="0" className="ml-5">

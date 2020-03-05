@@ -1,5 +1,5 @@
 // Librerias
-import React, { useState }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import { useFormContext } from 'react-hook-form' 
 
 // Layout
@@ -20,34 +20,34 @@ const InformacionSolicitudDelCredito = props => {
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;    
 
-  
 
-  const [vezVivienta, setVezVivienda] = useState();  
-  const [modalidadVivienta, setModalidadVivienta] = useState();  
-  const [cardinalidadVivienta, setCardinalidadVivienta] = useState();
+  const [mes, setMes] = useState();
 
-  const [vezVehiculo, setVezVehiculo] = useState();  
-  const [modalidadVehiculo, setModalidadVehiculo] = useState();  
-
-  const [modalidadBienestar, setModalidadBienestar] = useState('educacion');  
-
-  const [primas, setPrimas] = useState('1');  
-
-
-
-  // Se llama la función (Callback) del componente padre (Main)
-  const cambiarLinea = e => { props.cambiarLinea(e.target.value); } // Variable para determinar linea de credito (Vivienda, Vehiculo, Bienestar o calamidad)
+  // Se llaman las funciones (Callback) del componente padre (Main)
+  const cambiarCategoria = e => { props.cambiarCategoria(e.target.value); }
+  const cambiarSubcategoria = e => { props.cambiarSubcategoria(e.target.value); }
   const cambiarVez = e => { props.cambiarVez(e.target.value); }; 
+  const cambiarCardinalidadVivienta = e => { props.cambiarCardinalidadVivienta(e.target.value); }
+  const cambiarPrimas = e => { props.cambiarPrimas(e.target.value); };
+
+
+  // Se ejecuta cada vez que se renderiza este componente
+  useEffect(() => {   
+    // Se carga la lista de departamentos y municipios
+    function generarMeses() {
+      // Generar listado de meses (1-48)    
+      let result = [];    
+      for (let mes = 1; mes < 49; mes++) {
+        result.push(
+          <option value={mes} key={mes}>{mes}</option>
+        )     
+      }
+      setMes(result)                                        
+    }    
+    generarMeses();            
+  }, [])
 
   
-  const cambiarModalidadVivienta = e => { setModalidadVivienta(e.target.value); }; 
-  const cambiarCardinalidadVivienta = e => { setCardinalidadVivienta(e.target.value); }; 
-  
-  const cambiarModalidadVehiculo = e => { setModalidadVehiculo(e.target.value); }; 
-  const cambiarModalidadBienestar = e => { setModalidadBienestar(e.target.value); }; 
-  const cambiarPrimas = e => { setPrimas(e.target.value); }; 
-
-
   return (
       
       <div>
@@ -61,27 +61,27 @@ const InformacionSolicitudDelCredito = props => {
             <Alert variant={'secondary'}>
               <Label className="mb-2">
                 <input className="mr-1" type="radio" value = 'VI'
-                  checked = {props.linea === 'VI'}  
-                  onChange = {cambiarLinea}/>
+                  checked = {props.categoria === 'VI'}  
+                  onChange = {cambiarCategoria}/>
                 <strong>Vivienda</strong>
               </Label>
               <Label className="mb-2 text-left">No. Vez</Label>    
               <Row>
                 <Label className="mr-4">
                   <input className="ml-2" type="radio" value="1" 
-                    checked = {props.vez === '1' && props.linea === 'VI'}  
+                    checked = {props.vez === '1' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
                   1 Vez
                 </Label> 
                 <Label className="mr-4">
                   <input className="" type="radio" value="2" 
-                    checked = {props.vez === '2' && props.linea === 'VI'}  
+                    checked = {props.vez === '2' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
                   2 Vez
                 </Label>
                 <Label>
                   <input className="" type="radio" value="3" 
-                    checked = {props.vez === '3' && props.linea === 'VI'}  
+                    checked = {props.vez === '3' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
                   3 Vez
                 </Label>
@@ -89,38 +89,38 @@ const InformacionSolicitudDelCredito = props => {
               <Label className="mb-2 mt-4 text-left">Modalidad</Label>                  
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="compra" 
-                    checked = {modalidadVivienta === 'compra'}  
-                    onChange = {cambiarModalidadVivienta}/>
+                  <input className="ml-2" type="radio" value="CM" 
+                    checked = {props.subcategoria === 'CM' && props.categoria === 'VI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Compra
                 </Label> 
                 </Row> 
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="liberacion" 
-                    checked = {modalidadVivienta === 'liberacion'}  
-                    onChange = {cambiarModalidadVivienta}/>
+                  <input className="ml-2" type="radio" value="LI" 
+                    checked = {props.subcategoria === 'LI' && props.categoria === 'VI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Liberación
                 </Label>
                 </Row> 
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2"type="radio" value="construccion" 
-                    checked = {modalidadVivienta === 'construccion'}  
-                    onChange = {cambiarModalidadVivienta}/>
+                  <input className="ml-2"type="radio" value="CC" 
+                    checked = {props.subcategoria === 'CC' && props.categoria === 'VI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Construcción
                 </Label>       
                 </Row> 
                 <Row className="mb-2 mt-4 text-center">
                   <Label className="mr-4">
                     <input className="ml-2" type="radio" value="individual" 
-                      checked = {cardinalidadVivienta === 'individual'}  
+                      checked = {props.cardinalidadVivienta === 'individual'}  
                       onChange = {cambiarCardinalidadVivienta}/>
                       Individual
                   </Label> 
                   <Label className="mr-4">
                     <input className="mb-2" type="radio" value="conjunta" 
-                      checked = {cardinalidadVivienta === 'conjunta'}  
+                      checked = {props.cardinalidadVivienta === 'conjunta'}  
                       onChange = {cambiarCardinalidadVivienta}/>
                       Conjunta
                   </Label>
@@ -132,21 +132,21 @@ const InformacionSolicitudDelCredito = props => {
             <Alert variant={'secondary'}> 
               <Label>
                 <input className="mr-2" type="radio" value = 'VH'
-                  checked = {props.linea === 'VH'}  
-                  onChange = {cambiarLinea}/>
+                  checked = {props.categoria === 'VH'}  
+                  onChange = {cambiarCategoria}/>
                   <strong>Vehiculo</strong>
               </Label>
               <Label className="mb-2 text-left">No. Vez</Label>    
               <Row>
                 <Label className="mr-5 ml-5">
                   <input className="ml-2" type="radio" value="1" 
-                    checked = {props.vez === '1' && props.linea === 'VH'}  
+                    checked = {props.vez === '1' && props.categoria === 'VH'}  
                     onChange = {cambiarVez}/>
                     1 Vez
                 </Label> 
                 <Label className="ml-5">
                   <input className="" type="radio" value="2" 
-                    checked = {props.vez === '2' && props.linea === 'VH'}  
+                    checked = {props.vez === '2' && props.categoria === 'VH'}  
                     onChange = {cambiarVez}/>
                     2 Vez
                 </Label>
@@ -156,17 +156,17 @@ const InformacionSolicitudDelCredito = props => {
               <Label className="mb-2 mt-4 text-left">Modalidad</Label>                  
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="compra" 
-                    checked = {modalidadVehiculo === 'compra'}  
-                    onChange = {cambiarModalidadVehiculo}/>
+                  <input className="ml-2" type="radio" value="CM" 
+                    checked = {props.subcategoria === 'CM' && props.categoria === 'VH'}  
+                    onChange = {cambiarSubcategoria}/>
                     Compra
                 </Label> 
                 </Row> 
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2 mb-3" type="radio" value="liberacion" 
-                    checked = {modalidadVehiculo === 'liberacion'}  
-                    onChange = {cambiarModalidadVehiculo}/>
+                  <input className="ml-2 mb-3" type="radio" value="LI" 
+                    checked = {props.subcategoria === 'LI' && props.categoria === 'VH'}  
+                    onChange = {cambiarSubcategoria}/>
                     Liberación
                 </Label>
                 </Row>               
@@ -178,55 +178,57 @@ const InformacionSolicitudDelCredito = props => {
             <Alert variant={'secondary'}> 
               <Label>
                 <input className="mr-1" type="radio" value = 'BI'
-                  checked = {props.linea === 'BI'}  
-                  onChange = {cambiarLinea}/>
+                  checked = {props.categoria === 'BI'}  
+                  onChange = {cambiarCategoria}/>
                   <strong>Bienestar integral</strong>
               </Label>
               <Label className="mb-2 mt-2 text-left">Modalidad</Label>                  
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="educacion" 
-                    checked = {modalidadBienestar === 'educacion'}  
-                    onChange = {cambiarModalidadBienestar}/>
+                  <input className="ml-2" type="radio" value="ED" 
+                    checked = {props.subcategoria === 'ED' && props.categoria === 'BI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Educación
                 </Label> 
                 </Row> 
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="recreacion" 
-                    checked = {modalidadBienestar === 'recreacion'}  
-                    onChange = {cambiarModalidadBienestar}/>
+                  <input className="ml-2" type="radio" value="RE" 
+                    checked = {props.subcategoria === 'RE' && props.categoria === 'BI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Recreación
                 </Label>
                 </Row>
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="salud" 
-                    checked = {modalidadBienestar === 'salud'}  
-                    onChange = {cambiarModalidadBienestar}/>
+                  <input className="ml-2" type="radio" value="SA" 
+                    checked = {props.subcategoria === 'SA' && props.categoria === 'BI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Salud
                 </Label> 
                 </Row> 
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="locativas" 
-                    checked = {modalidadBienestar === 'locativas'}  
-                    onChange = {cambiarModalidadBienestar}/>
+                  <input className="ml-2" type="radio" value="ML" 
+                    checked = {props.subcategoria === 'ML' && props.categoria === 'BI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Mejoras locativas
                 </Label>
                 </Row>
                 <Row> 
                 <Label className="text-left">
-                  <input className="ml-2" type="radio" value="hogar" 
-                    checked = {modalidadBienestar === 'hogar'}  
-                    onChange = {cambiarModalidadBienestar}/>
+                  <input className="ml-2" type="radio" value="HG" 
+                    checked = {props.subcategoria === 'HG' && props.categoria === 'BI'}  
+                    onChange = {cambiarSubcategoria}/>
                     Hogar
                 </Label>
                 </Row>
             </Alert>
-            <Label>
+            <Label className="mb-2">
                 <strong>Monto solicitado</strong>
             </Label>            
+            <Label className="text-left nota_certificado mb-2" >
+              Digite un monto entre <strong>$1</strong> y <strong>$ 9,304,711.80</strong></Label>
             <Label className="text-left">
               <input className="mr-1 mb-3" type="checkbox" value="calamidad"/>
                 Cupo máximo permitido
@@ -245,8 +247,8 @@ const InformacionSolicitudDelCredito = props => {
             <Alert variant={'secondary'}>
               <Label>
                 <input className="mr-1" type="radio" value = 'CA'
-                  checked = {props.linea === 'CA'}  
-                  onChange = {cambiarLinea}/>
+                  checked = {props.categoria === 'CA'}  
+                  onChange = {cambiarCategoria}/>
                   <strong>Calamidad</strong>
               </Label>
               <Label className="mb-2 mt-2 text-justify nota_vehiculo">
@@ -264,12 +266,8 @@ const InformacionSolicitudDelCredito = props => {
                 <Label className="text-left nota_pago" >(Máximo 48 Meses,excepto calamidad)</Label>
               </Col>            
               <Col md="3">
-                <Form.Control size="sm" name="ubicacion" as="select" ref={register}>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>...</option>
+                <Form.Control size="sm" name="meses" as="select" ref={register}>
+                  {mes}
                 </Form.Control>
               </Col>
             </Row>
@@ -277,13 +275,13 @@ const InformacionSolicitudDelCredito = props => {
               <Row>
                 <Label className="mr-4">
                   <input className="ml-2" type="radio" value="1" 
-                    checked = {primas === '1'}  
+                    checked = {props.primas === '1'}  
                     onChange = {cambiarPrimas}/>
-                    1 prima
+                    1 prima &nbsp;
                 </Label> 
                 <Label className="mr-4">
                   <input className="" type="radio" value="2" 
-                    checked = {primas === '2'}  
+                    checked = {props.primas === '2'}  
                     onChange = {cambiarPrimas}/>
                     2 primas
                 </Label>           
@@ -291,13 +289,13 @@ const InformacionSolicitudDelCredito = props => {
               <Row>
                 <Label className="mr-4">
                   <input className="ml-2" type="radio" value="3" 
-                    checked = {primas === '3'}  
+                    checked = {props.primas === '3'}  
                     onChange = {cambiarPrimas}/>
                     3 primas
                 </Label>
                 <Label>
                   <input className="" type="radio" value="4" 
-                    checked = {primas === '4'}  
+                    checked = {props.primas === '4'}  
                     onChange = {cambiarPrimas}/>
                     4 primas
                 </Label>

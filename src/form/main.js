@@ -42,9 +42,9 @@ function Main() {
   const [referenciasFamiliares, setReferenciasFamiliares] = useState([ // Datagrid de referencias familiares
     [,"", "",]
   ]);  
-  const [linea, setLinea] = useState();  
+  const [categoria, setCategoria] = useState();  
   const [vez, setVez] = useState();  
-  const [modalidad, setModalidad] = useState();  
+  const [subcategoria, setSubcategoria] = useState();  
   const [cardinalidadVivienta, setCardinalidadVivienta] = useState();  
   const [primas, setPrimas] = useState();  
   
@@ -54,9 +54,9 @@ function Main() {
   function cambiarFechaIngreso(nuevaFecha) { setFechaIngreso(nuevaFecha); }
   function cambiarPersonasaCargo(nuevasPersonas) { setPersonasaCargo(nuevasPersonas); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
   function cambiarReferenciasFamiliares(nuevasReferencias) { setReferenciasFamiliares(nuevasReferencias); } 
-  function cambiarLinea(nuevaLinea) { setLinea(nuevaLinea); }
+  function cambiarCategoria(nuevaCategoria) { setCategoria(nuevaCategoria); }
   function cambiarVez(nuevaVez) { setVez(nuevaVez); }
-  function cambiarModalidad(nuevaModalidad) { setModalidad(nuevaModalidad); } 
+  function cambiarSubcategoria(nuevaSubcategoria) { setSubcategoria(nuevaSubcategoria); } 
   function cambiarCardinalidadVivienta(nuevaCardinalidad) { setCardinalidadVivienta(nuevaCardinalidad); } 
   function cambiarPrimas(nuevaPrima) { setPrimas(nuevaPrima); } 
 
@@ -81,11 +81,17 @@ function Main() {
     // Se acoplan los datos de los datagrids NO implícitos por el register de react-hook-form
     data.personasaCargo = personasaCargo;
     data.referenciasFamiliares = referenciasFamiliares;  
+    data.categoria = categoria
+    data.vez = vez
+    data.subcategoria = subcategoria
+    data.cardinalidadvivienda = cardinalidadVivienta
+    data.primas = primas
+
 
     console.log(data);
 
     // alert(JSON.stringify(data));
-    alert(JSON.stringify(referenciasFamiliares));
+    //alert(JSON.stringify(referenciasFamiliares));
     
     axios.post(URL, data)
         .then(response => {
@@ -118,9 +124,9 @@ function Main() {
             fechaIngreso={fechaIngreso} cambiarFechaIngreso={cambiarFechaIngreso}/>
 
           <InformacionSolicitudDelCredito 
-            linea={linea} cambiarLinea={cambiarLinea}
+            categoria={categoria} cambiarCategoria={cambiarCategoria}
             vez={vez} cambiarVez={cambiarVez}
-            modalidad={modalidad} cambiarModalidad={cambiarModalidad}
+            subcategoria={subcategoria} cambiarSubcategoria={cambiarSubcategoria}
             cardinalidadVivienta={cardinalidadVivienta} cambiarCardinalidadVivienta={cambiarCardinalidadVivienta}
             primas={primas} cambiarPrimas={cambiarPrimas}/>
 
