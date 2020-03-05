@@ -28,6 +28,8 @@ const URL_departamentos = 'http://3.80.200.194/ords/snw_fonviv/lista/departament
 // URL del servidor para solicitar municipios a partir de un departamento
 var URL_municipios = 'http://3.80.200.194/ords/snw_fonviv/lista/municipio?id_departamento='
 
+// URL del servidor para solicitar municipios a partir de un departamento
+var URL_nombre_completo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/cliente?identificacion='
 
 
 
@@ -37,6 +39,7 @@ const InformacionPersonalFuncionario = props => {
   const register = useFormContext().register;  
   const watch = useFormContext().watch;  
 
+  const [nombreCompleto, setNombreCompleto] = useState("Se autocompleta con el No. de documento...");
   const [departamentos, setDepartamentos] = useState();
   const [municipios, setMunicipios] = useState();
   
@@ -47,12 +50,13 @@ const InformacionPersonalFuncionario = props => {
 
   // Se ejecuta cada vez que se renderiza este componente
   useEffect(() => {   
-    // Se carga la lista de departamentos y municipios
+
+   // Se carga la lista de departamentos y municipios
    async function obtenerDepartamentos() {
       try {
-        let response = await axios.get(URL_departamentos);
-        let data = response.data.items;      
-        let result = [];        
+        let response = await axios.get(URL_departamentos)
+        let data = response.data.items
+        let result = []
         
         for (let index in data) {                   
           result.push(<option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>)
@@ -69,29 +73,42 @@ const InformacionPersonalFuncionario = props => {
     obtenerDepartamentos();            
   }, [])
 
+  // Funcion para consultar en base de datos los nombres y apellidos a partir del numero de documento
+  async function obtenerNombreCompleto() {     
+    
+    try {
+      let URL = URL_nombre_completo
+      URL += watch('documento')      
+      let response = await axios.get(URL)
+      let result = await response.data
+
+      setNombreCompleto(result);
+      
+    } catch (error) {
+      console.log('Fallo obteniendo los nombres y apellidos' + error)
+    }   
+  }
 
   // Recalcular listado de municipios con base al departamento seleccionado
-  const recalcularMunicipios = e => {     
+  async function recalcularMunicipios() {     
     
-    let URL = URL_municipios;
-    URL += watch('departamento');
-
-    axios.get(URL)
-      .then(response => {        
-        
-        let data = response.data.items;
-        let result = [];
-        
-        for (let index in data) {                   
-          result.push(
-            <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
-          )
-        }
-        setMunicipios(result)                       
-      })
-      .catch(error => {        
-        console.log('Fallo obteniendo los municipios' + error)
-      });   
+    try {
+      let URL = URL_municipios
+      URL += watch('departamento')      
+      let response = await axios.get(URL)
+      let data = await response.data.items
+      let result = []
+      
+      for (let index in data) {                   
+        result.push(
+          <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
+        )
+      }
+      setMunicipios(result) 
+      
+    } catch (error) {
+      console.log('Fallo obteniendo los municipios' + error)
+    }   
   }
 
 
@@ -170,9 +187,7 @@ const InformacionPersonalFuncionario = props => {
               <span>Nombres y Apellidos</span>
             </Col>
             <Col>
-              <Form.Control disabled size="sm" name="nombres" type="text" 
-                value="Se autocompleta con el No. de documento..." 
-                ref={register} />
+              <Form.Control disabled size="sm" name="nombres" type="text" value={nombreCompleto}/>
             </Col>  
           </Row>
 
@@ -193,7 +208,7 @@ const InformacionPersonalFuncionario = props => {
               <span>No. Documento</span>
             </Col>
             <Col md="2">
-              <Form.Control size="sm" name="documento" type="number" ref={register} />
+              <Form.Control size="sm" name="documento" type="number" onBlur = {obtenerNombreCompleto} ref={register} />
             </Col>
             <Col md="0" className="ml-3 mr-3">
               <span>Sexo</span>
