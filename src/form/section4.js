@@ -59,169 +59,168 @@ const InformacionSolicitudDelCredito = props => {
         <Row className="mb-3 ml-1 text-center">{/*Linea de crédito*/}                              
           <Col md="3"> {/* Vivienda */} 
             <Alert variant={'secondary'}>
-              <Label className="mb-2">
-                <input className="mr-1" type="radio" value = 'VI'
+              <div className="custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='VI' id="VI"
                   checked = {props.categoria === 'VI'}  
                   onChange = {cambiarCategoria}/>
-                <strong>Vivienda</strong>
-              </Label>
-              <Label className="mb-2 text-left">No. Vez</Label>    
+                <label className="mb-2 custom-control-label pointer" for="VI"><strong>Vivienda</strong></label>
+              </div>
+              <p className="mb-2 text-left">No. Vez</p>    
               <Row>
-                <Label className="mr-4">
-                  <input className="ml-2" type="radio" value="1" 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='1' id="VI_1"
                     checked = {props.vez === '1' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
-                  1 Vez
-                </Label> 
-                <Label className="mr-4">
-                  <input className="" type="radio" value="2" 
+                  <label className="mr-4 custom-control-label pointer" for="VI_1">1 Vez</label>
+                </div>
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='2' id="VI_2"
                     checked = {props.vez === '2' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
-                  2 Vez
-                </Label>
-                <Label>
-                  <input className="" type="radio" value="3" 
+                  <label className="mr-4 custom-control-label pointer" for="VI_2">2 Vez</label>
+                </div>
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='3' id="VI_3"
                     checked = {props.vez === '3' && props.categoria === 'VI'}  
                     onChange = {cambiarVez}/>
-                  3 Vez
-                </Label>
+                  <label className="mr-4 custom-control-label pointer" for="VI_3">3 Vez</label>
+                </div>             
               </Row> 
-              <Label className="mb-2 mt-4 text-left">Modalidad</Label>                  
-                <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="CM" 
+              <p className="mb-2 mt-4 text-left">Modalidad</p>                  
+              <Row> 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='CM' id="VI_CM"
                     checked = {props.subcategoria === 'CM' && props.categoria === 'VI'}  
                     onChange = {cambiarSubcategoria}/>
-                    Compra
-                </Label> 
-                </Row> 
-                <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="LI" 
+                  <label className="mr-4 custom-control-label pointer" for="VI_CM">Compra</label>
+                </div>                  
+              </Row> 
+              <Row> 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='LI' id="VI_LI"
                     checked = {props.subcategoria === 'LI' && props.categoria === 'VI'}  
                     onChange = {cambiarSubcategoria}/>
-                    Liberación
-                </Label>
-                </Row> 
-                <Row> 
-                <Label className="text-left">
-                  <input className="ml-2"type="radio" value="CC" 
+                  <label className="mr-4 custom-control-label pointer" for="VI_LI">Liberación</label>
+                </div>               
+              </Row> 
+              <Row>
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='CC' id="VI_CC"
                     checked = {props.subcategoria === 'CC' && props.categoria === 'VI'}  
                     onChange = {cambiarSubcategoria}/>
-                    Construcción
-                </Label>       
-                </Row> 
-                <Row className="mb-2 mt-4 text-center">
-                  <Label className="mr-4">
-                    <input className="ml-2" type="radio" value="individual" 
-                      checked = {props.cardinalidadVivienta === 'individual'}  
-                      onChange = {cambiarCardinalidadVivienta}/>
-                      Individual
-                  </Label> 
-                  <Label className="mr-4">
-                    <input className="mb-2" type="radio" value="conjunta" 
-                      checked = {props.cardinalidadVivienta === 'conjunta'}  
-                      onChange = {cambiarCardinalidadVivienta}/>
-                      Conjunta
-                  </Label>
-                </Row>        
+                  <label className="mr-4 custom-control-label pointer" for="VI_CC">Construcción</label>
+                </div>                       
+              </Row> 
+              <Row className="mb-2 mt-4 text-center">
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='INDIVIDUAL' id="IND"
+                    checked = {props.cardinalidadVivienta === 'INDIVIDUAL' && props.categoria === 'VI'}  
+                    onChange = {cambiarCardinalidadVivienta}/>
+                  <label className="mr-4 custom-control-label pointer" for="IND">Individual</label>
+                </div>      
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='CONJUNTA' id="CON"
+                    checked = {props.cardinalidadVivienta === 'CONJUNTA' && props.categoria === 'VI'}  
+                    onChange = {cambiarCardinalidadVivienta}/>
+                  <label className="mr-4 custom-control-label pointer" for="CON">Individual</label>
+                </div>                              
+              </Row>        
             </Alert>
           </Col>
 
           <Col md="3"> {/* Vehículo */} 
             <Alert variant={'secondary'}> 
-              <Label>
-                <input className="mr-2" type="radio" value = 'VH'
+              <div className="custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='VH' id="VH"
                   checked = {props.categoria === 'VH'}  
                   onChange = {cambiarCategoria}/>
-                  <strong>Vehiculo</strong>
-              </Label>
-              <Label className="mb-2 text-left">No. Vez</Label>    
+                <label className="mb-2 custom-control-label pointer" for="VH"><strong>Vehículo</strong></label>
+              </div>              
+              <p className="mb-2 text-left">No. Vez</p>    
               <Row>
-                <Label className="mr-5 ml-5">
-                  <input className="ml-2" type="radio" value="1" 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='1' id="VH_1"
                     checked = {props.vez === '1' && props.categoria === 'VH'}  
                     onChange = {cambiarVez}/>
-                    1 Vez
-                </Label> 
-                <Label className="ml-5">
-                  <input className="" type="radio" value="2" 
+                  <label className="mr-4 custom-control-label pointer" for="VH_1">1 Vez</label>
+                </div>     
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='2' id="VH_2"
                     checked = {props.vez === '2' && props.categoria === 'VH'}  
                     onChange = {cambiarVez}/>
-                    2 Vez
-                </Label>
+                  <label className="mr-4 custom-control-label pointer" for="VH_2">2 Vez</label>
+                </div>   
               </Row>
-              <Label className="mb-2 mt-2 text-justify nota_vehiculo">No habrá segundo crédito para vehículo hasta no satisfacer la demanda de  crédito por primera vez. Artículo 13, parágrafo Manual de crédito Vigente.
-              </Label>   
-              <Label className="mb-2 mt-4 text-left">Modalidad</Label>                  
-                <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="CM" 
+              <p className="mt-2 text-justify nota_vehiculo">No habrá segundo crédito para vehículo hasta no satisfacer la demanda de  crédito por primera vez. Artículo 13, parágrafo Manual de crédito Vigente.
+              </p>   
+              <p className="mb-2 mt-4 text-left">Modalidad</p>
+              <Row> 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='CM' id="VH_CM"
                     checked = {props.subcategoria === 'CM' && props.categoria === 'VH'}  
                     onChange = {cambiarSubcategoria}/>
-                    Compra
-                </Label> 
-                </Row> 
-                <Row> 
-                <Label className="text-left">
-                  <input className="ml-2 mb-3" type="radio" value="LI" 
+                  <label className="mr-4 custom-control-label pointer" for="VH_CM">Compra</label>
+                </div>                  
+              </Row> 
+              <Row> 
+                <div className="ml-2 custom-control custom-radio">            
+                  <input className="custom-control-input pointer" type="radio" value='LI' id="VH_LI"
                     checked = {props.subcategoria === 'LI' && props.categoria === 'VH'}  
                     onChange = {cambiarSubcategoria}/>
-                    Liberación
-                </Label>
-                </Row>               
+                  <label className="mr-4 custom-control-label pointer" for="VH_LI">Liberación</label>
+                </div>               
+              </Row>                                  
             </Alert>                                       
-
           </Col>              
 
           <Col md="3">  {/* Bienestar integral */}           
             <Alert variant={'secondary'}> 
-              <Label>
-                <input className="mr-1" type="radio" value = 'BI'
+              <div className="custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='BI' id="BI"
                   checked = {props.categoria === 'BI'}  
                   onChange = {cambiarCategoria}/>
-                  <strong>Bienestar integral</strong>
-              </Label>
-              <Label className="mb-2 mt-2 text-left">Modalidad</Label>                  
+                <label className="mb-2 custom-control-label pointer" for="BI"><strong>Bienestar integral</strong></label>
+              </div>                 
+              <p className="mb-2 mt-2 text-left">Modalidad</p>                  
                 <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="ED" 
-                    checked = {props.subcategoria === 'ED' && props.categoria === 'BI'}  
-                    onChange = {cambiarSubcategoria}/>
-                    Educación
-                </Label> 
+                  <div className="ml-2 custom-control custom-radio">            
+                    <input className="custom-control-input pointer" type="radio" value='ED' id="BI_ED"
+                      checked = {props.subcategoria === 'ED' && props.categoria === 'BI'}  
+                      onChange = {cambiarSubcategoria}/>
+                    <label className="mr-4 custom-control-label pointer" for="BI_ED">Educación</label>
+                  </div>                
                 </Row> 
                 <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="RE" 
-                    checked = {props.subcategoria === 'RE' && props.categoria === 'BI'}  
-                    onChange = {cambiarSubcategoria}/>
-                    Recreación
-                </Label>
+                  <div className="ml-2 custom-control custom-radio">            
+                    <input className="custom-control-input pointer" type="radio" value='RE' id="BI_RE"
+                      checked = {props.subcategoria === 'RE' && props.categoria === 'BI'}  
+                      onChange = {cambiarSubcategoria}/>
+                    <label className="mr-4 custom-control-label pointer" for="BI_RE">Recreación</label>
+                  </div>              
                 </Row>
                 <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="SA" 
-                    checked = {props.subcategoria === 'SA' && props.categoria === 'BI'}  
-                    onChange = {cambiarSubcategoria}/>
-                    Salud
-                </Label> 
+                  <div className="ml-2 custom-control custom-radio">            
+                    <input className="custom-control-input pointer" type="radio" value='SA' id="BI_SA"
+                      checked = {props.subcategoria === 'SA' && props.categoria === 'BI'}  
+                      onChange = {cambiarSubcategoria}/>
+                    <label className="mr-4 custom-control-label pointer" for="BI_SA">Salud</label>
+                  </div>       
                 </Row> 
                 <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="ML" 
-                    checked = {props.subcategoria === 'ML' && props.categoria === 'BI'}  
-                    onChange = {cambiarSubcategoria}/>
-                    Mejoras locativas
-                </Label>
+                  <div className="ml-2 custom-control custom-radio">            
+                    <input className="custom-control-input pointer" type="radio" value='ML' id="BI_ML"
+                      checked = {props.subcategoria === 'ML' && props.categoria === 'BI'}  
+                      onChange = {cambiarSubcategoria}/>
+                    <label className="mr-4 custom-control-label pointer" for="BI_ML">Mejoras locativas</label>
+                  </div>       
                 </Row>
                 <Row> 
-                <Label className="text-left">
-                  <input className="ml-2" type="radio" value="HG" 
-                    checked = {props.subcategoria === 'HG' && props.categoria === 'BI'}  
-                    onChange = {cambiarSubcategoria}/>
-                    Hogar
-                </Label>
+                  <div className="ml-2 custom-control custom-radio">            
+                    <input className="custom-control-input pointer" type="radio" value='HG' id="BI_HG"
+                      checked = {props.subcategoria === 'HG' && props.categoria === 'BI'}  
+                      onChange = {cambiarSubcategoria}/>
+                    <label className="mr-4 custom-control-label pointer" for="BI_HG">Hogar</label>
+                  </div>
                 </Row>
             </Alert>
             <Label className="mb-2">
@@ -245,15 +244,15 @@ const InformacionSolicitudDelCredito = props => {
 
           <Col md="3"> 
             <Alert variant={'secondary'}>
-              <Label>
-                <input className="mr-1" type="radio" value = 'CA'
+              <div className="custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='CA' id="CA"
                   checked = {props.categoria === 'CA'}  
                   onChange = {cambiarCategoria}/>
-                  <strong>Calamidad</strong>
-              </Label>
-              <Label className="mb-2 mt-2 text-justify nota_vehiculo">
+                <label className="mb-2 custom-control-label pointer" for="CA"><strong>Calamidad</strong></label>
+              </div>                   
+              <p className="mb-2 mt-2 text-justify nota_vehiculo">
                 Nota: El plazo máximo para calamidad es de 36 meses.
-              </Label> 
+              </p> 
             </Alert>
             <Label>
                 <strong>Forma de pago</strong>
@@ -274,12 +273,12 @@ const InformacionSolicitudDelCredito = props => {
             <Label className="mb-2 mt-2 text-left">Descuento por primas</Label>    
               <Row>
                 <Label className="mr-4">
-                  <input className="ml-2" type="radio" value="1" 
+                  <input className="ml-2 mb-3" type="radio" value="1" 
                     checked = {props.primas === '1'}  
                     onChange = {cambiarPrimas}/>
                     1 prima &nbsp;
                 </Label> 
-                <Label className="mr-4">
+                <Label className="ml-4">
                   <input className="" type="radio" value="2" 
                     checked = {props.primas === '2'}  
                     onChange = {cambiarPrimas}/>
@@ -294,7 +293,7 @@ const InformacionSolicitudDelCredito = props => {
                     3 primas
                 </Label>
                 <Label>
-                  <input className="" type="radio" value="4" 
+                  <input className="ml-4" type="radio" value="4" 
                     checked = {props.primas === '4'}  
                     onChange = {cambiarPrimas}/>
                     4 primas
