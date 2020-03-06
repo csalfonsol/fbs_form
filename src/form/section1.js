@@ -35,7 +35,7 @@ var URL_nombre_completo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/cliente
 
 const InformacionPersonalFuncionario = props => {
   
-  // Funcion utilizada para conectar con el contexto principal del formulario
+  // Funciones utilizadas para conectar con el contexto principal del formulario
   const register = useFormContext().register;  
   const watch = useFormContext().watch;  
 
@@ -113,7 +113,7 @@ const InformacionPersonalFuncionario = props => {
 
 
   // Agregar una persona a cargo en el datagrid de personas a cargo
-  const agregar = e => {     
+  function agregar() {     
     
     // Máximo pueden haber 4 personas a cargo
     if (props.personasaCargo.length < 4){ 
@@ -199,9 +199,9 @@ const InformacionPersonalFuncionario = props => {
               <Form.Control size="sm" name="tipo_documento" as="select" ref={register}>                
                 <option value="CC">C.C</option>
                 <option value="CE">C.E</option>
-                <option value="NIT">Nit</option>
+                <option value="NIT">NIT</option>
                 <option value="TI">T.I</option>
-                <option value="RC">Registro civil</option>
+                <option value="RC">REGISTRO CIVIL</option>
               </Form.Control>
             </Col>
             <Col md="0" className="ml-3">

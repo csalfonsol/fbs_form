@@ -45,8 +45,9 @@ function Main() {
   const [categoria, setCategoria] = useState();  
   const [vez, setVez] = useState();  
   const [subcategoria, setSubcategoria] = useState();  
-  const [cardinalidadVivienta, setCardinalidadVivienta] = useState();  
+  const [cardinalidadVivienda, setCardinalidadVivienda] = useState();  
   const [primas, setPrimas] = useState();  
+  const [montoEspecifico, setMontoEspecifico] = useState();
   
  
   // Funciones para llamar los Setters de los hooks de las variables de estado
@@ -57,8 +58,10 @@ function Main() {
   function cambiarCategoria(nuevaCategoria) { setCategoria(nuevaCategoria); }
   function cambiarVez(nuevaVez) { setVez(nuevaVez); }
   function cambiarSubcategoria(nuevaSubcategoria) { setSubcategoria(nuevaSubcategoria); } 
-  function cambiarCardinalidadVivienta(nuevaCardinalidad) { setCardinalidadVivienta(nuevaCardinalidad); } 
+  function cambiarCardinalidadVivienda(nuevaCardinalidad) { setCardinalidadVivienda(nuevaCardinalidad); } 
   function cambiarPrimas(nuevaPrima) { setPrimas(nuevaPrima); } 
+  function cambiarMontoEspecifico(nuevoMonto) { setMontoEspecifico(nuevoMonto); } 
+  
 
   
   // Funcion que se ejecuta al enviar el formulario, si las validaciones son exitosas
@@ -84,8 +87,9 @@ function Main() {
     data.categoria = categoria
     data.vez = vez
     data.subcategoria = subcategoria
-    data.cardinalidadvivienda = cardinalidadVivienta
+    data.cardinalidadvivienda = cardinalidadVivienda
     data.primas = primas
+    data.montoEspecifico = montoEspecifico
 
 
     console.log(data);
@@ -127,8 +131,9 @@ function Main() {
             categoria={categoria} cambiarCategoria={cambiarCategoria}
             vez={vez} cambiarVez={cambiarVez}
             subcategoria={subcategoria} cambiarSubcategoria={cambiarSubcategoria}
-            cardinalidadVivienta={cardinalidadVivienta} cambiarCardinalidadVivienta={cambiarCardinalidadVivienta}
-            primas={primas} cambiarPrimas={cambiarPrimas}/>
+            cardinalidadVivienda={cardinalidadVivienda} cambiarCardinalidadVivienda={cambiarCardinalidadVivienda}
+            primas={primas} cambiarPrimas={cambiarPrimas}
+            montoEspecifico={montoEspecifico} cambiarMontoEspecifico={cambiarMontoEspecifico}/>
 
           <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
             Enviar  
