@@ -1,7 +1,8 @@
 // Librerias
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form'; 
 import es from 'date-fns/locale/es';
+import axios from 'axios';
 
 // Layout
 import Form from 'react-bootstrap/Form';
@@ -16,15 +17,47 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/app.css';
 
 
+// URL del servidor para solicitar listado de cargo y grado
+const URL_cargos = 'http://3.80.200.194/ords/snw_fonviv/lista/cargo_grado'
+
 
 const InformacionLaboralFuncionario = props => {
 
   // Funcion utilizada para conectar con el contexto principal del formulario
   const register = useFormContext().register;    
 
+  // Variables hook temporales para manejo de eventos (NO son las que se envian como callback al componente padre Main)  
+  const [cargos, setCargos] = useState();
+
 
   // Se llama la función (Callback) del componente padre (Main)
   function cambiarFechaIngreso(fecha) { props.cambiarFechaIngreso(fecha); }
+
+
+  // Se ejecuta cada vez que se renderiza este componente
+  useEffect(() => {   
+
+    // Se carga la lista de cargo y grado
+    async function obtenerCargos() {
+       try {
+         let response = await axios.get(URL_cargos)
+         let data = response.data.items
+         let result = []
+         
+         // Opcion por defecto
+         result.push(<option value={'0'} key={0}>Seleccione una Opción</option>)
+
+         for (let index in data) {                   
+          result.push(<option value={data[index].id} key={data[index].id}>{data[index].cargo_grado}</option>)
+         }
+         setCargos(result)        
+ 
+       } catch (error) {
+         console.log('Fallo obteniendo los cargos y grados' + error)
+       }      
+     }    
+     obtenerCargos();            
+  }, [])
 
   return (
       
@@ -37,6 +70,7 @@ const InformacionLaboralFuncionario = props => {
           </Col>
           <Col md="6">
             <Form.Control size="sm" name="entidad" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
               <option value="FBS">Fondo de Bienestar Social de la Contraloría General de la República</option>
               <option value="CGR">Contraloría General de la República</option>
             </Form.Control>
@@ -46,6 +80,7 @@ const InformacionLaboralFuncionario = props => {
           </Col>
           <Col md="4">
             <Form.Control size="sm" name="ciudad_oficina" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
               <option>Bogotá</option>
               <option>Medellín</option>
               <option>Yopal</option>
@@ -67,6 +102,7 @@ const InformacionLaboralFuncionario = props => {
           </Col> 
           <Col md="3"> 
             <Form.Control size="sm" name="ubicacion" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
               <option>Oficina Principal</option>
               <option>Colegio para Hijos de Empleados de la CGR</option>
               <option>Centro Médico CGR</option>    
@@ -107,6 +143,7 @@ const InformacionLaboralFuncionario = props => {
           </Col>
           <Col md="4">
             <Form.Control size="sm" name="nombramiento" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
               <option>Carrera Administrativa</option>
               <option>Libre Nombramiento</option>
               <option>Provisional</option>
@@ -117,12 +154,8 @@ const InformacionLaboralFuncionario = props => {
             <span>Cargo y Grado</span>
           </Col>
           <Col md="5">
-            <Form.Control size="sm" name="cargo" as="select" ref={register}>
-              <option>Asesor de Despacho - G  02</option>
-              <option>Director - G  03</option>
-              <option>...</option>
-              <option>Profesional Especializado M/T Cod.2028. G-13</option>
-              <option>...</option>
+            <Form.Control size="sm" name="cargo_grado" as="select" ref={register}>
+              {cargos}
             </Form.Control>
           </Col>        
         </Row>  
@@ -133,6 +166,7 @@ const InformacionLaboralFuncionario = props => {
           </Col>
           <Col md="4" className="mr-4">
             <Form.Control size="sm" name="estado_cargo" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
               <option>Ocupado / Activo</option>
               <option>Posesión en Propiedad</option>
               <option>Comisión</option>

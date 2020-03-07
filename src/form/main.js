@@ -94,7 +94,7 @@ function Main() {
 
     console.log(data);
 
-    // alert(JSON.stringify(data));
+    alert(categoria);
     //alert(JSON.stringify(referenciasFamiliares));
     
     axios.post(URL, data)
@@ -139,7 +139,9 @@ function Main() {
             Enviar  
           </Button>   
 
-          <DeclaracionAutorizacionFirma />
+          {/* Seccion de firma y autorizacion
+             <DeclaracionAutorizacionFirma />
+          */} 
           
           {/*Aqui va el boton enviar */}                
 
