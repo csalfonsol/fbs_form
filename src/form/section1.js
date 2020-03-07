@@ -21,7 +21,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import '../styles/app.css';
 
 
-
 // URL del servidor para solicitar los departamentos
 const URL_departamentos = 'http://3.80.200.194/ords/snw_fonviv/lista/departamento'
 
@@ -30,7 +29,6 @@ var URL_municipios = 'http://3.80.200.194/ords/snw_fonviv/lista/municipio?id_dep
 
 // URL del servidor para solicitar municipios a partir de un departamento
 var URL_nombre_completo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/cliente?identificacion='
-
 
 
 const InformacionPersonalFuncionario = props => {
@@ -57,6 +55,9 @@ const InformacionPersonalFuncionario = props => {
         let response = await axios.get(URL_departamentos)
         let data = response.data.items
         let result = []
+
+        // Opcion por defecto
+        result.push(<option value={0} key={0}>Seleccione una Opción</option>)
         
         for (let index in data) {                   
           result.push(<option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>)
@@ -99,6 +100,9 @@ const InformacionPersonalFuncionario = props => {
       let data = await response.data.items
       let result = []
       
+      // Opcion por defecto
+      result.push(<option value={0} key={0}>Seleccione una Opción</option>)
+
       for (let index in data) {                   
         result.push(
           <option value={data[index].codigo} key={data[index].codigo}>{data[index].nombre}</option>
@@ -197,6 +201,7 @@ const InformacionPersonalFuncionario = props => {
             </Col>
             <Col md="2">
               <Form.Control size="sm" name="tipo_documento" as="select" ref={register}>                
+                <option value="0">Seleccione una opción</option>
                 <option value="CC">C.C</option>
                 <option value="CE">C.E</option>
                 <option value="NIT">NIT</option>
@@ -215,6 +220,7 @@ const InformacionPersonalFuncionario = props => {
             </Col>
             <Col md="0"> 
               <Form.Control size="sm" name="sexo" as="select" ref={register}>
+                <option value="0">Seleccione una opción</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
                 <option value="O">Otro</option>

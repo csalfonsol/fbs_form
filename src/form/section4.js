@@ -21,8 +21,8 @@ const InformacionSolicitudDelCredito = props => {
   const watch = useFormContext().watch;  
 
   // Variables hook temporales para manejo de eventos (NO son las que se envian como callback al componente padre Main)  
-  const [montoMaximo, setMontoMaximo] = useState(9304711);
-  const [switchMaximo, setSwitchMaximo] = useState('off');
+  const [montoMaximo, setMontoMaximo] = useState(995995);
+  const [switchMaximo, setSwitchMaximo] = useState('off');  
   const [mes, setMes] = useState();
 
   // Se llaman las funciones (Callback) del componente padre (Main)
@@ -52,7 +52,7 @@ const InformacionSolicitudDelCredito = props => {
   }, [])
 
   // Establecer en el cupo solicitado el valor máximo permitido 
-  function establecerCupoMaximo(e) {           
+  function establecerCupoMaximo(e) {   
     if (switchMaximo === 'on'){      
       setSwitchMaximo('off')                     
     }
@@ -256,25 +256,39 @@ const InformacionSolicitudDelCredito = props => {
                 </Row>
             </Alert>
             <p className="mb-2"><strong>Monto solicitado</strong></p>            
-            <p className="text-left nota_certificado mb-2" >
-              Digite un monto entre <strong>$1</strong> y <strong>$ 9,304,711.80</strong>
-            </p>
-            <div className="custom-control custom-checkbox text-left mb-2">
-              <input type="checkbox" className="custom-control-input pointer" id="CAL" 
-                onChange = {establecerCupoMaximo}/>
-              <label className="custom-control-label pointer" htmlFor="CAL">Cupo máximo permitido</label>
-            </div>
-            <Row>
-              <Col className="ml-3" md="0">
-                <p className="text-left" >Monto específico</p>
-              </Col>            
-              <Col md="7">
-                <Form.Control size="sm" name="monto_especifico" type="number" 
-                  value = {props.montoEspecifico} 
-                  onChange = {cambiarMontoEspecifico}
-                  disabled = {switchMaximo === 'on'} /> 
-              </Col>
-            </Row>
+            {watch('entidad') === '0' &&
+              <p className="text-left text-danger mb-2" >
+                <strong>Seleccione una entidad</strong>
+              </p>
+            }
+            {watch('cargo_grado') === '0' &&
+              <p className="text-left text-danger mb-2" >
+                <strong>Seleccione un cargo y grado</strong>
+              </p>
+            }
+            {watch('entidad') !== '0' && watch('cargo_grado') !== '0' && props.categoria !== 'undefined' &&
+              <div> 
+                <p className="text-left nota_certificado mb-2" >
+                  Digite un monto entre <strong>$1</strong> y <strong>${montoMaximo}</strong>
+                </p>                            
+                <div className="custom-control custom-checkbox text-left mb-2">
+                  <input type="checkbox" className="custom-control-input pointer" id="CAL" 
+                    onChange = {establecerCupoMaximo}/>
+                  <label className="custom-control-label pointer" htmlFor="CAL">Cupo máximo permitido</label>
+                </div>
+                <Row>
+                  <Col className="ml-3" md="0">
+                    <p className="text-left" >Monto específico</p>
+                  </Col>            
+                  <Col md="7">
+                    <Form.Control size="sm" name="monto_especifico" type="number" 
+                      value = {props.montoEspecifico} 
+                      onChange = {cambiarMontoEspecifico}
+                      disabled = {switchMaximo === 'on'} /> 
+                  </Col>
+                </Row>
+              </div>
+            }
           </Col>
 
           <Col md="3"> 
