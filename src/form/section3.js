@@ -34,6 +34,10 @@ const InformacionLaboralFuncionario = props => {
   function cambiarFechaIngreso(fecha) { props.cambiarFechaIngreso(fecha); }
 
 
+  // Se llama la función (Callback) del componente padre (Main)
+  const recalcularMontoMaximo = () => { props.recalcularMontoMaximo() }
+
+
   // Se ejecuta cada vez que se renderiza este componente
   useEffect(() => {   
 
@@ -69,7 +73,7 @@ const InformacionLaboralFuncionario = props => {
             <span>Entidad</span>
           </Col>
           <Col md="6">
-            <Form.Control size="sm" name="entidad" as="select" ref={register}>
+            <Form.Control size="sm" name="entidad" as="select" onChange={recalcularMontoMaximo} ref={register}>
               <option value="0">Seleccione una opción</option>
               <option value="FBS">Fondo de Bienestar Social de la Contraloría General de la República</option>
               <option value="CGR">Contraloría General de la República</option>
@@ -154,7 +158,7 @@ const InformacionLaboralFuncionario = props => {
             <span>Cargo y Grado</span>
           </Col>
           <Col md="5">
-            <Form.Control size="sm" name="cargo_grado" as="select" ref={register}>
+            <Form.Control size="sm" name="cargo_grado" as="select" onChange={recalcularMontoMaximo} ref={register}>
               {cargos}
             </Form.Control>
           </Col>        

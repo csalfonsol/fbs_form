@@ -23,9 +23,12 @@ import DeclaracionAutorizacionFirma from './section5';
 
 
 
-
 // URL del servidor que recibirá los datos
-const URL = 'http://3.80.200.194/ords/snw_fonviv/solicitud/crear'
+const URL_envio = 'http://3.80.200.194/ords/snw_fonviv/solicitud/crear'
+
+// URL del servidor para obtener el monto máximo de una solicitud
+const URL_monto_maximo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/monto'
+
 
 function Main() {
 
@@ -48,6 +51,7 @@ function Main() {
   const [cardinalidadVivienda, setCardinalidadVivienda] = useState();  
   const [primas, setPrimas] = useState();  
   const [montoEspecifico, setMontoEspecifico] = useState();
+  const [montoMaximo, setMontoMaximo] = useState();
   
  
   // Funciones para llamar los Setters de los hooks de las variables de estado
@@ -55,18 +59,81 @@ function Main() {
   function cambiarFechaIngreso(nuevaFecha) { setFechaIngreso(nuevaFecha); }
   function cambiarPersonasaCargo(nuevasPersonas) { setPersonasaCargo(nuevasPersonas); } // TODO: Buscar la manera de eliminar la primera posicion vacia (Se requiere para que encaje con las columnas del datagrid 
   function cambiarReferenciasFamiliares(nuevasReferencias) { setReferenciasFamiliares(nuevasReferencias); } 
-  function cambiarCategoria(nuevaCategoria) { setCategoria(nuevaCategoria); }
+  function cambiarCategoria(nuevaCategoria) { setCategoria(nuevaCategoria); recalcularMontoMaximo(nuevaCategoria) }
   function cambiarVez(nuevaVez) { setVez(nuevaVez); }
   function cambiarSubcategoria(nuevaSubcategoria) { setSubcategoria(nuevaSubcategoria); } 
   function cambiarCardinalidadVivienda(nuevaCardinalidad) { setCardinalidadVivienda(nuevaCardinalidad); } 
-  function cambiarPrimas(nuevaPrima) { setPrimas(nuevaPrima); } 
+  function cambiarPrimas(nuevaPrima) { setPrimas(nuevaPrima); }   
   function cambiarMontoEspecifico(nuevoMonto) { setMontoEspecifico(nuevoMonto); } 
+  function cambiarMontoMaximo(nuevoMontoMaximo) { setMontoMaximo(nuevoMontoMaximo); } 
+  
+
+  // Funcion que intenta recalcular el monto máximo cada vez que cambia alguno de los campos que lo determinan
+  // (Entidad, cargo y grado, o Categoria) 
+  function recalcularMontoMaximo(nuevaCategoria) { 
+    if (nuevaCategoria === undefined){
+
+      // Se verifica si se tienen los parámetros necesarios para hacer el cálculo
+      if (watch('entidad') !== '0' && watch('cargo_grado') !== '0' && categoria !== undefined){
+        let data = JSON.stringify({
+          categoria: categoria,
+          cargo_grado: watch('cargo_grado'),
+          entidad: watch('entidad')
+        })
+
+        axios.post(URL_monto_maximo, data, {
+          headers: {
+              'Content-Type': 'application/json',
+          }
+        })
+        .then(response => {
+          cambiarMontoMaximo(response.data.monto)
+          if (montoEspecifico > response.data.monto){ 
+            cambiarMontoEspecifico(response.data.monto)          
+          }
+        })
+        .catch(error => {          
+          cambiarMontoMaximo('No especificado')
+          // console.log(error)
+        });  
+      }      
+    }
+    else {
+
+      // Se verifica si se tienen los parámetros necesarios para hacer el cálculo (ya se tiene categoria)
+      if (watch('entidad') !== '0' && watch('cargo_grado') !== '0'){
+        let data = JSON.stringify({
+          categoria: nuevaCategoria,
+          cargo_grado: watch('cargo_grado'),
+          entidad: watch('entidad')
+        })
+
+        axios.post(URL_monto_maximo, data, {
+          headers: {
+              'Content-Type': 'application/json',
+          }
+        })
+        .then(response => {
+          cambiarMontoMaximo(response.data.monto)
+          if (montoEspecifico > response.data.monto){ 
+            cambiarMontoEspecifico(response.data.monto)          
+          }
+          // console.log(response);
+        })
+        .catch(error => {          
+          cambiarMontoMaximo('No especificado')
+          // console.log(error)
+        });  
+      }      
+    }
+  } 
+
   
 
   
   // Funcion que se ejecuta al enviar el formulario, si las validaciones son exitosas
   const onSubmit = data => {
-   
+         
     let fechaFormateada = 
       (fechaNacimiento.getDate()).toString() + '/' +
       (fechaNacimiento.getMonth()+1).toString() + '/' + 
@@ -93,18 +160,16 @@ function Main() {
 
 
     console.log(data);
-
-    alert(categoria);
-    //alert(JSON.stringify(referenciasFamiliares));
     
-    axios.post(URL, data)
+    axios.post(URL_envio, data)
         .then(response => {
           console.log(response);
         })
-        .catch(error => {
-          //alert('fallo creando pedido' + error);
+        .catch(error => {          
           console.log(error)
         });         
+
+    
   };   
 
 
@@ -125,15 +190,19 @@ function Main() {
             referenciasFamiliares={referenciasFamiliares} cambiarReferenciasFamiliares={cambiarReferenciasFamiliares}/>
 
           <InformacionLaboralFuncionario             
-            fechaIngreso={fechaIngreso} cambiarFechaIngreso={cambiarFechaIngreso}/>
-
+            fechaIngreso={fechaIngreso} cambiarFechaIngreso={cambiarFechaIngreso}
+            recalcularMontoMaximo={recalcularMontoMaximo}/>
+  
           <InformacionSolicitudDelCredito 
             categoria={categoria} cambiarCategoria={cambiarCategoria}
             vez={vez} cambiarVez={cambiarVez}
             subcategoria={subcategoria} cambiarSubcategoria={cambiarSubcategoria}
             cardinalidadVivienda={cardinalidadVivienda} cambiarCardinalidadVivienda={cambiarCardinalidadVivienda}
             primas={primas} cambiarPrimas={cambiarPrimas}
-            montoEspecifico={montoEspecifico} cambiarMontoEspecifico={cambiarMontoEspecifico}/>
+            montoEspecifico={montoEspecifico} cambiarMontoEspecifico={cambiarMontoEspecifico}
+            montoMaximo={montoMaximo} cambiarMontoMaximo={cambiarMontoMaximo}
+            recalcularMontoMaximo={recalcularMontoMaximo}/>
+
 
           <Button size="lg" variant="primary" type="submit">{/*Enviar formulario*/}
             Enviar  

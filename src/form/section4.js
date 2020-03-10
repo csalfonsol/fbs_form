@@ -21,7 +21,6 @@ const InformacionSolicitudDelCredito = props => {
   const watch = useFormContext().watch;  
 
   // Variables hook temporales para manejo de eventos (NO son las que se envian como callback al componente padre Main)  
-  const [montoMaximo, setMontoMaximo] = useState(995995);
   const [switchMaximo, setSwitchMaximo] = useState('off');  
   const [mes, setMes] = useState();
 
@@ -32,11 +31,12 @@ const InformacionSolicitudDelCredito = props => {
   const cambiarCardinalidadVivienda = e => { props.cambiarCardinalidadVivienda(e.target.value); }
   const cambiarPrimas = e => { props.cambiarPrimas(e.target.value); };
   const cambiarMontoEspecifico = e => { props.cambiarMontoEspecifico(e.target.value); }
-    const cambiarMontoMaximo = value => { props.cambiarMontoEspecifico(value); }
-
+    const cambiarMontoEspecificoMax = value => { props.cambiarMontoEspecifico(value); }
+  const cambiarMontoMaximo = value => { props.cambiarMontoMaximo(value); } 
+  const recalcularMontoMaximo = () => { props.recalcularMontoMaximo(); }
 
   // Se ejecuta cada vez que se renderiza este componente
-  useEffect(() => {   
+  useEffect(() => {       
     // Se carga la lista de departamentos y municipios
     function generarMeses() {
       // Generar listado de meses (1-48)    
@@ -50,6 +50,7 @@ const InformacionSolicitudDelCredito = props => {
     }    
     generarMeses();            
   }, [])
+  
 
   // Establecer en el cupo solicitado el valor máximo permitido 
   function establecerCupoMaximo(e) {   
@@ -57,11 +58,11 @@ const InformacionSolicitudDelCredito = props => {
       setSwitchMaximo('off')                     
     }
     else {      
-      cambiarMontoMaximo(montoMaximo)
+      cambiarMontoEspecificoMax(props.montoMaximo)
       setSwitchMaximo('on')                
     }
   }
-    
+     
 
   return (
       
@@ -257,19 +258,24 @@ const InformacionSolicitudDelCredito = props => {
             </Alert>
             <p className="mb-2"><strong>Monto solicitado</strong></p>            
             {watch('entidad') === '0' &&
-              <p className="text-left text-danger mb-2" >
+              <div className="text-left"><span className="text-danger" >
                 <strong>Seleccione una entidad</strong>
-              </p>
+              </span> <br></br> </div>              
             }
-            {watch('cargo_grado') === '0' &&
-              <p className="text-left text-danger mb-2" >
+            {(watch('cargo_grado') === '0' || watch('cargo_grado') === '') &&
+              <div className="text-left"><span className="text-danger" >
                 <strong>Seleccione un cargo y grado</strong>
-              </p>
+              </span> <br></br> </div>
             }
-            {watch('entidad') !== '0' && watch('cargo_grado') !== '0' && props.categoria !== 'undefined' &&
+            {props.categoria === undefined &&
+              <div className="text-left"><span className="text-danger" >
+                <strong>Seleccione una línea de crédito </strong>
+              </span> <br></br> </div>
+            }
+            {watch('entidad') !== '0' && watch('cargo_grado') !== '0' && props.categoria !== undefined &&
               <div> 
                 <p className="text-left nota_certificado mb-2" >
-                  Digite un monto entre <strong>$1</strong> y <strong>${montoMaximo}</strong>
+                  Digite un monto entre <strong>$1</strong> y <strong>${props.montoMaximo}</strong>
                 </p>                            
                 <div className="custom-control custom-checkbox text-left mb-2">
                   <input type="checkbox" className="custom-control-input pointer" id="CAL" 
