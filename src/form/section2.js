@@ -101,12 +101,7 @@ const ReferenciasFamiliares = props =>  {
             </Button> 
           </Row>
 
-          <Col md="0">          
-            {/*
-            <Button onClick={handleClick} size="sm" variant="primary">
-             ver data  
-            </Button>   
-            */}
+          <Col md="0">                      
             <ReactTable /* Datagrid de referencias familiares */              
               data = {props.referenciasFamiliares}
               columns={[
@@ -150,8 +145,7 @@ const ReferenciasFamiliares = props =>  {
               className = "-striped -highlight blue"
             />           
           </Col>     
-      </div>                      
-    
+      </div>                          
   );
 }
 

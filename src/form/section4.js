@@ -201,7 +201,7 @@ const InformacionSolicitudDelCredito = props => {
             </Alert>                                       
           </Col>              
 
-          <Col md="3">  {/* Bienestar integral */}           
+          <Col md="3">  {/* Bienestar integral Y Monto solicitado*/}           
             <Alert variant={'secondary'}> 
               <div className="custom-control custom-radio">            
                 <input className="custom-control-input pointer" type="radio" value='BI' id="BI"
@@ -256,6 +256,7 @@ const InformacionSolicitudDelCredito = props => {
                   </div>
                 </Row>
             </Alert>
+
             <p className="mb-2"><strong>Monto solicitado</strong></p>            
             {watch('entidad') === '0' &&
               <div className="text-left"><span className="text-danger" >
@@ -297,7 +298,7 @@ const InformacionSolicitudDelCredito = props => {
             }
           </Col>
 
-          <Col md="3"> 
+          <Col md="3"> {/* Calamidad y forma de pago*/}           
             <Alert variant={'secondary'}>
               <div className="custom-control custom-radio">            
                 <input className="custom-control-input pointer" type="radio" value='CA' id="CA"
@@ -326,43 +327,40 @@ const InformacionSolicitudDelCredito = props => {
               </Col>
             </Row>
             <p className="mb-2 mt-2 text-left">Descuento por primas</p>    
-              <Row>
-                <div className="ml-2 custom-control custom-radio">            
-                  <input className="custom-control-input pointer" type="radio" value='1' id="PR_1"
-                    checked = {props.primas === '1'}  
-                    onChange = {cambiarPrimas}/>
-                  <label className="mr-4 custom-control-label pointer" htmlFor="PR_1">1 prima &nbsp;</label>
-                </div>                 
-                <div className="ml-2 custom-control custom-radio">            
-                  <input className="custom-control-input pointer" type="radio" value='2' id="PR_2"
-                    checked = {props.primas === '2'}  
-                    onChange = {cambiarPrimas}/>
-                  <label className="mr-4 custom-control-label pointer" htmlFor="PR_2">2 primas</label>
-                </div>            
-              </Row>     
-              <Row>
-                <div className="ml-2 custom-control custom-radio">            
-                  <input className="custom-control-input pointer" type="radio" value='3' id="PR_3"
-                    checked = {props.primas === '3'}  
-                    onChange = {cambiarPrimas}/>
-                  <label className="mr-4 custom-control-label pointer" htmlFor="PR_3">3 primas</label>
-                </div>            
-                <div className="ml-2 custom-control custom-radio">            
-                  <input className="custom-control-input pointer" type="radio" value='4' id="PR_4"
-                    checked = {props.primas === '4'}  
-                    onChange = {cambiarPrimas}/>
-                  <label className="mr-4 custom-control-label pointer" htmlFor="PR_4">4 primas</label>
-                </div>            
-              </Row>
-
-
+            <Row>
+              <div className="ml-2 custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='1' id="PR_1"
+                  checked = {props.primas === '1'}  
+                  onChange = {cambiarPrimas}/>
+                <label className="mr-4 custom-control-label pointer" htmlFor="PR_1">1 prima &nbsp;</label>
+              </div>                 
+              <div className="ml-2 custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='2' id="PR_2"
+                  checked = {props.primas === '2'}  
+                  onChange = {cambiarPrimas}/>
+                <label className="mr-4 custom-control-label pointer" htmlFor="PR_2">2 primas</label>
+              </div>            
+            </Row>     
+            <Row>
+              <div className="ml-2 custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='3' id="PR_3"
+                  checked = {props.primas === '3'}  
+                  onChange = {cambiarPrimas}/>
+                <label className="mr-4 custom-control-label pointer" htmlFor="PR_3">3 primas</label>
+              </div>            
+              <div className="ml-2 custom-control custom-radio">            
+                <input className="custom-control-input pointer" type="radio" value='4' id="PR_4"
+                  checked = {props.primas === '4'}  
+                  onChange = {cambiarPrimas}/>
+                <label className="mr-4 custom-control-label pointer" htmlFor="PR_4">4 primas</label>
+              </div>            
+            </Row>
           </Col>
           <p className="mb-2 text-justify">Los plazos para vivienda y vehículo son los estipulados en las tablas anexas al Manual de <br></br> Crédito Vigente
           </p> 
         </Row>
     
-      </div>                      
-    
+      </div>                          
   );
 }
 

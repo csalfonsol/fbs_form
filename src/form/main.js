@@ -34,7 +34,7 @@ function Main() {
 
   // Metodos principales de React-hook-form para capturar los datos, manejar validaciones y crear el contexto del formulario
   const methods = useForm();
-  const { register, handleSubmit, watch } = methods;
+  const { register, errors, handleSubmit, watch } = methods;
   
   // Variables de estado (hooks) y sus Setters
   const [fechaNacimiento, setFechaNacimiento] = useState(); 

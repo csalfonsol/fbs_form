@@ -10,6 +10,10 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
+import InputGroup from 'react-bootstrap/InputGroup';
+import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import ReactTable from 'react-table-6';
 import DatePicker from "react-datepicker";
@@ -27,15 +31,16 @@ const URL_departamentos = 'http://3.80.200.194/ords/snw_fonviv/lista/departament
 // URL del servidor para solicitar municipios a partir de un departamento
 var URL_municipios = 'http://3.80.200.194/ords/snw_fonviv/lista/municipio?id_departamento='
 
-// URL del servidor para solicitar municipios a partir de un departamento
+// URL del servidor para solicitar nombres y apellidos de un funcionario, a partir de su No. documento
 var URL_nombre_completo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/cliente?identificacion='
 
 
 const InformacionPersonalFuncionario = props => {
   
   // Funciones utilizadas para conectar con el contexto principal del formulario
-  const register = useFormContext().register;  
+  const register = useFormContext().register;   
   const watch = useFormContext().watch;  
+  const errors = useFormContext().errors;  
 
   const [nombreCompleto, setNombreCompleto] = useState("Se autocompleta con el No. de documento...");
   const [departamentos, setDepartamentos] = useState();
@@ -180,6 +185,14 @@ const InformacionPersonalFuncionario = props => {
     );
   }
 
+  // Componente de ayuda para mostrar cuando una validacion no se cumple
+  function renderValidation(props) {    
+    if (errors.dir_numero){
+      return <Tooltip {...props}>Este campo es requerido</Tooltip>;    
+    }
+    return <div></div>
+  }
+
   return (
       
       <div>
@@ -238,9 +251,46 @@ const InformacionPersonalFuncionario = props => {
             <Col md="0" >
               <span>Dirección Residencia</span>
             </Col>
+
             <Col md="7">
-              <Form.Control size="sm" name="direccion" type="text" ref={register} />
+              <InputGroup>    
+              
+                <Form.Control size="sm" name="dir_inicio" as="select" ref={register}>
+                  <option value="0">Calle</option>
+                  <option value="M">Carrera</option>
+                  <option value="F">Diagonal</option>
+                  <option value="O">Circunvalar</option>
+                  <option value="O">Avenida</option>
+                </Form.Control>    
+                             
+                            
+
+                <OverlayTrigger placement="top" trigger="focus" overlay={renderValidation}>
+                  <Form.Control size="sm" name="dir_numero" type="text" ref={register({required: true})} />  
+                </OverlayTrigger>                
+
+                <span className="ml-2 mr-2">#</span>
+
+                <Form.Control size="sm" name="dir_parte1" type="text" ref={register} /> 
+                
+
+
+                             
+
+                <span className="ml-2 mr-2">-</span>
+
+                <Form.Control size="sm" name="dir_parte2" type="text" ref={register} />              
+
+                <Form.Control className="ml-5" size="sm" placeholder="Otros" name="dir_otros" type="text" ref={register} />              
+                <Form.Control size="sm" placeholder="Código postal" name="dir_postal" type="text" ref={register} />              
+              </InputGroup>
             </Col>
+
+            
+
+
+
+
             <Col md="0" className="ml-4">
               <span>Teléfono Fijo</span>
             </Col>
@@ -394,6 +444,16 @@ const InformacionPersonalFuncionario = props => {
               <Form.Control size="sm" name="empresa_conyugue" type="email" ref={register} />
             </Col>
           </Row>     
+
+
+          <Overlay target={document.getElementsByName("dir_parte1")[0]} show={true} placement="bottom">
+            {props => (
+              <Tooltip id="overlay-example" {...props}>
+                My Tooltip
+              </Tooltip>
+            )}
+          </Overlay>
+
       </div>                      
     
   );
