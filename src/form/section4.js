@@ -32,8 +32,8 @@ const InformacionSolicitudDelCredito = props => {
   const cambiarPrimas = e => { props.cambiarPrimas(e.target.value); };
   const cambiarMontoEspecifico = e => { props.cambiarMontoEspecifico(e.target.value); }
     const cambiarMontoEspecificoMax = value => { props.cambiarMontoEspecifico(value); }
-  const cambiarMontoMaximo = value => { props.cambiarMontoMaximo(value); } 
-  const recalcularMontoMaximo = () => { props.recalcularMontoMaximo(); }
+  // const cambiarMontoMaximo = value => { props.cambiarMontoMaximo(value); } 
+  // const recalcularMontoMaximo = () => { props.recalcularMontoMaximo(); }
 
   // Se ejecuta cada vez que se renderiza este componente
   useEffect(() => {       

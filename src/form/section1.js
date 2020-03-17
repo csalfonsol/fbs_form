@@ -268,23 +268,23 @@ const InformacionPersonalFuncionario = props => {
         <Col md="7">
           <InputGroup>    
             <Col md="0" >              
-            <Form.Control size="sm" name="dir_inicio" as="select" ref={register}>              
-              <option value="207">Calle</option>
-              <option value="192">Carrera</option>
-              <option value="195">Avenida</option>
-              <option value="193">Avenida carrera</option>
-              <option value="201">Diagonal</option>
-              <option value="203">Transversal</option>  
-              <option value="194">Autopista</option>              
-              <option value="200">Circunvalar</option>  
-              <option value="196">Carretera</option>                                                                    
-              <option value="202">Kilómetro</option>            
-              <option value="204">Vereda</option>
-              <option value="199">Camino</option>
-              <option value="205">Variante</option>
-              <option value="206">Zona franca</option>
-              <option value="208">Historico</option>                                                       
-            </Form.Control> 
+              <Form.Control size="sm" name="dir_inicio" as="select" ref={register}>              
+                <option value="207">Calle</option>
+                <option value="192">Carrera</option>
+                <option value="195">Avenida</option>
+                <option value="193">Avenida carrera</option>
+                <option value="201">Diagonal</option>
+                <option value="203">Transversal</option>  
+                <option value="194">Autopista</option>              
+                <option value="200">Circunvalar</option>  
+                <option value="196">Carretera</option>                                                                    
+                <option value="202">Kilómetro</option>            
+                <option value="204">Vereda</option>
+                <option value="199">Camino</option>
+                <option value="205">Variante</option>
+                <option value="206">Zona franca</option>
+                <option value="208">Historico</option>                                                       
+              </Form.Control> 
             </Col> 
             <Form.Control size="sm" name="dir_numero" type="text" ref={register({required: true})} />    
               {errors.dir_numero && renderValidationRequired("dir_numero")}                          

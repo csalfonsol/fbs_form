@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 // Elementos
+import InputGroup from 'react-bootstrap/InputGroup';
 import DatePicker from "react-datepicker";
 
 // Estilos
@@ -63,12 +64,14 @@ const InformacionLaboralFuncionario = props => {
      obtenerCargos();            
   }, [])
 
+
+
   return (
       
       <div>
         <h3 className="mb-3 mt-5">3. Información laboral del funcionario</h3>      
           
-        <Row className="mb-3">{/*Entidad y ciudad oficina*/}
+        <Row className="mb-4">{/*Entidad y ciudad oficina*/}
           <Col md="0">
             <span>Entidad</span>
           </Col>
@@ -83,6 +86,7 @@ const InformacionLaboralFuncionario = props => {
             <span>Ciudad Oficina</span>
           </Col>
           <Col md="4">
+            <InputGroup>
             <Form.Control size="sm" name="ciudad_oficina" as="select" ref={register}>
               <option value="0">Seleccione una opción</option>
               <option>Bogotá</option>
@@ -91,18 +95,27 @@ const InformacionLaboralFuncionario = props => {
               <option>Villavicencio</option>
               <option>...</option>
             </Form.Control>
+            <Form.Control size="sm" name="ciudad_oficina" as="select" ref={register}>
+              <option value="0">Seleccione una opción</option>
+              <option>Bogotá</option>
+              <option>Medellín</option>
+              <option>Yopal</option>
+              <option>Villavicencio</option>
+              <option>...</option>
+            </Form.Control>                                                                               
+            </InputGroup>
           </Col>      
         </Row>
 
-        <Row className="mb-3">{/*Gerencia y ubicacion FBS*/}
+        <Row className="mb-2">{/*Gerencia y ubicacion FBS*/}
           <Col md="0">
             <span>Gerencia Departamental Colegiada</span>
           </Col>
           <Col md="3">
-            <Form.Control size="sm" name="gerencia" type="text" ref={register} />
+            <Form.Control disabled placeholder="Se auto-calcula" size="sm" name="gerencia" type="text" ref={register} />
           </Col>
           <Col md="0" className="ml-5">
-            <span className="nota_ubicacion_fbs"><strong>Para Funcionarios FBS señalar Ubicación</strong> <br></br>(Oficina Principal, Colegio ó Centro Médico)</span>
+            <p className="nota_ubicacion_fbs"><strong>Para Funcionarios FBS señalar Ubicación</strong> <br></br>(Oficina Principal, Colegio ó Centro Médico)</p>
           </Col> 
           <Col md="3"> 
             <Form.Control size="sm" name="ubicacion" as="select" ref={register}>
@@ -119,19 +132,19 @@ const InformacionLaboralFuncionario = props => {
             <span>Direccion</span>
           </Col>
           <Col md="4" className="mr-5">
-            <Form.Control size="sm" name="direccion_oficina" type="text" ref={register} />
+            <Form.Control disabled placeholder="Se auto-calcula" size="sm" name="direccion_oficina" type="text" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
             <span>Piso</span>
           </Col>
           <Col md="1">
-            <Form.Control size="sm" name="piso" type="number" ref={register} />
+            <Form.Control disabled placeholder="Se auto-calcula" size="sm" name="piso" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
             <span>Teléfono</span>
           </Col>
           <Col md="2"> 
-            <Form.Control size="sm" name="telefono_oficina" type="number" ref={register} />
+            <Form.Control disabled placeholder="Se auto-calcula" size="sm" name="telefono_oficina" type="number" ref={register} />
           </Col>
           <Col md="0" className="ml-4">
             <span>Extensión</span>
