@@ -1,5 +1,5 @@
 // Librerias
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, FormContext } from 'react-hook-form'
 import axios from 'axios';
 
@@ -30,12 +30,17 @@ const URL_envio = 'http://3.80.200.194/ords/snw_fonviv/solicitud/crear'
 const URL_monto_maximo = 'http://3.80.200.194/ords/snw_fonviv/solicitud/monto'
 
 
-function Main() {
+function Main(props) {
 
   // Metodos principales de React-hook-form para capturar los datos, manejar validaciones y crear el contexto del formulario
   const methods = useForm();
   const { register, errors, handleSubmit, watch } = methods;
   
+
+  const [data, setData] = useState(); 
+
+
+
   // Variables de estado (hooks) y sus Setters
   const [fechaNacimiento, setFechaNacimiento] = useState(); 
   const [fechaIngreso, setFechaIngreso] = useState(); 
@@ -67,6 +72,19 @@ function Main() {
   function cambiarMontoEspecifico(nuevoMonto) { setMontoEspecifico(nuevoMonto); } 
   function cambiarMontoMaximo(nuevoMontoMaximo) { setMontoMaximo(nuevoMontoMaximo); } 
   
+
+  // Se ejecuta cada vez que se renderiza este componente
+  useEffect(() => {   
+
+    const { match: { params } } = props;      
+    setData(params.data);    
+    console.log(data);
+           
+  }, [])
+
+
+   
+
 
   // Funcion que intenta recalcular el monto máximo cada vez que cambia alguno de los campos que lo determinan
   // (Entidad, cargo y grado, o Categoria) 
@@ -177,7 +195,7 @@ function Main() {
 
     <Container fluid>
       
-      <h2 className="text-center mb-5">SOLICITUD DE CRÉDITO</h2> {/*Encabezado del formulario*/}    
+  <h2 className="text-center mb-5">SOLICITUD DE CRÉDITO data:{data}</h2> {/*Encabezado del formulario*/}    
     
       <FormContext {...methods}>
         <Form onSubmit = {handleSubmit(onSubmit)} >          
